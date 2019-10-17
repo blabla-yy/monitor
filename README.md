@@ -1,4 +1,4 @@
-# Git-TUI
+# Monitor
 
 ![image](https://raw.githubusercontent.com/QaQAdrian/monitor/master/demo.png)
 
