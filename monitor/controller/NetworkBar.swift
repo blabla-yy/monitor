@@ -39,19 +39,19 @@ class NetworkBar: NSObject, BarItem, NSTableViewDataSource, NSTableViewDelegate 
         let column3 = NSTableColumn()
         let column4 = NSTableColumn()
 
-        column1.title = "进程ID"
+        column1.title = ""
         column1.width = 40
         column1.isEditable = false
 
-        column2.title = "进程名称"
+        column2.title = "processName".localized
         column2.width = 120
         column2.isEditable = false
 
-        column3.title = "上传数据"
+        column3.title = "upload".localized
         column3.width = maxSingleCellWidth + 10
         column3.isEditable = false
 
-        column4.title = "下载数据"
+        column4.title = "download".localized
         column4.width = maxSingleCellWidth + 10
         column4.isEditable = false
 
@@ -89,7 +89,7 @@ class NetworkBar: NSObject, BarItem, NSTableViewDataSource, NSTableViewDelegate 
         menu.addItem(item)
         menu.addItem(NSMenuItem.separator())
 
-        let quitItem = NSMenuItem(title: "退出", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        let quitItem = NSMenuItem(title: "quit".localized, action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         quitItem.keyEquivalentModifierMask = [.command]
         quitItem.isEnabled = true
 

@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:monitor.xcodeproj">
+      location = "self:/Users/wyy/Documents/swift/monitor/BandwidthMonitor.xcodeproj">
    </FileRef>
 </Workspace>

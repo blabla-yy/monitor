@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		753054F1238E5B0000072D6E /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753054F0238E5B0000072D6E /* StringUtils.swift */; };
 		755E5DED23546BE10055946F /* SysUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755E5DEC23546BE10055946F /* SysUtils.swift */; };
 		756662512355779600774160 /* NetworkBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756662502355779600774160 /* NetworkBar.swift */; };
+		7579DCE02372CFCB0083D47D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7579DCE22372CFCB0083D47D /* Localizable.strings */; };
 		75C65D9E2351AA2500A12690 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C65D9D2351AA2500A12690 /* AppDelegate.swift */; };
 		75C65DA02351AA2500A12690 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C65D9F2351AA2500A12690 /* ViewController.swift */; };
 		75C65DA22351AA2600A12690 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75C65DA12351AA2600A12690 /* Assets.xcassets */; };
@@ -20,9 +22,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		753054F0238E5B0000072D6E /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
+		753054F5238E679500072D6E /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		755E5DEC23546BE10055946F /* SysUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SysUtils.swift; sourceTree = "<group>"; };
 		756662502355779600774160 /* NetworkBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkBar.swift; sourceTree = "<group>"; };
-		75C65D9A2351AA2500A12690 /* monitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = monitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7579DCE12372CFCB0083D47D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7579DCE32372D12B0083D47D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		7579DCE42372D12B0083D47D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		75C65D9A2351AA2500A12690 /* BandwidthMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BandwidthMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75C65D9D2351AA2500A12690 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		75C65D9F2351AA2500A12690 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		75C65DA12351AA2600A12690 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -33,6 +40,7 @@
 		75C65DB12351AAAF00A12690 /* Bandwidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bandwidth.swift; sourceTree = "<group>"; };
 		75C65DB42351AC3E00A12690 /* CmdUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CmdUtils.swift; sourceTree = "<group>"; };
 		75CE3746235704BB00245E91 /* CellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
+		75CE374A2358737E00245E91 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +57,9 @@
 		75C65D912351AA2500A12690 = {
 			isa = PBXGroup;
 			children = (
+				753054F5238E679500072D6E /* CHANGELOG.md */,
+				7579DCE22372CFCB0083D47D /* Localizable.strings */,
+				75CE374A2358737E00245E91 /* README.md */,
 				75C65D9C2351AA2500A12690 /* monitor */,
 				75C65D9B2351AA2500A12690 /* Products */,
 			);
@@ -57,7 +68,7 @@
 		75C65D9B2351AA2500A12690 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				75C65D9A2351AA2500A12690 /* monitor.app */,
+				75C65D9A2351AA2500A12690 /* BandwidthMonitor.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -101,6 +112,7 @@
 			children = (
 				75C65DB42351AC3E00A12690 /* CmdUtils.swift */,
 				755E5DEC23546BE10055946F /* SysUtils.swift */,
+				753054F0238E5B0000072D6E /* StringUtils.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -116,9 +128,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		75C65D992351AA2500A12690 /* monitor */ = {
+		75C65D992351AA2500A12690 /* BandwidthMonitor */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 75C65DAA2351AA2600A12690 /* Build configuration list for PBXNativeTarget "monitor" */;
+			buildConfigurationList = 75C65DAA2351AA2600A12690 /* Build configuration list for PBXNativeTarget "BandwidthMonitor" */;
 			buildPhases = (
 				75C65D962351AA2500A12690 /* Sources */,
 				75C65D972351AA2500A12690 /* Frameworks */,
@@ -128,9 +140,9 @@
 			);
 			dependencies = (
 			);
-			name = monitor;
+			name = BandwidthMonitor;
 			productName = monitor;
-			productReference = 75C65D9A2351AA2500A12690 /* monitor.app */;
+			productReference = 75C65D9A2351AA2500A12690 /* BandwidthMonitor.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -149,20 +161,21 @@
 					};
 				};
 			};
-			buildConfigurationList = 75C65D952351AA2500A12690 /* Build configuration list for PBXProject "monitor" */;
+			buildConfigurationList = 75C65D952351AA2500A12690 /* Build configuration list for PBXProject "BandwidthMonitor" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 75C65D912351AA2500A12690;
 			productRefGroup = 75C65D9B2351AA2500A12690 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				75C65D992351AA2500A12690 /* monitor */,
+				75C65D992351AA2500A12690 /* BandwidthMonitor */,
 			);
 		};
 /* End PBXProject section */
@@ -173,6 +186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				75C65DA22351AA2600A12690 /* Assets.xcassets in Resources */,
+				7579DCE02372CFCB0083D47D /* Localizable.strings in Resources */,
 				75C65DA52351AA2600A12690 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,6 +198,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				753054F1238E5B0000072D6E /* StringUtils.swift in Sources */,
 				75C65DA02351AA2500A12690 /* ViewController.swift in Sources */,
 				75C65DAF2351AA7400A12690 /* StatusBarController.swift in Sources */,
 				75C65D9E2351AA2500A12690 /* AppDelegate.swift in Sources */,
@@ -198,10 +213,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		7579DCE22372CFCB0083D47D /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7579DCE12372CFCB0083D47D /* en */,
+				7579DCE42372D12B0083D47D /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		75C65DA32351AA2600A12690 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				75C65DA42351AA2600A12690 /* Base */,
+				7579DCE32372D12B0083D47D /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -213,6 +238,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -273,6 +299,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -370,7 +397,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		75C65D952351AA2500A12690 /* Build configuration list for PBXProject "monitor" */ = {
+		75C65D952351AA2500A12690 /* Build configuration list for PBXProject "BandwidthMonitor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				75C65DA82351AA2600A12690 /* Debug */,
@@ -379,7 +406,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		75C65DAA2351AA2600A12690 /* Build configuration list for PBXNativeTarget "monitor" */ = {
+		75C65DAA2351AA2600A12690 /* Build configuration list for PBXNativeTarget "BandwidthMonitor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				75C65DAB2351AA2600A12690 /* Debug */,
