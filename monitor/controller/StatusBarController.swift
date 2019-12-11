@@ -30,6 +30,7 @@ class IStatusBar {
                 }
             }
         })
+        
         if let timer = timer {
             // 如果是default 需要等待UITrackingRunLoopMode完成，才会触发计时器
             RunLoop.current.add(timer, forMode: .common)
