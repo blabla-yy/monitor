@@ -17,15 +17,15 @@ extension NSUserInterfaceItemIdentifier {
 
 class NetworkBar: NSObject, BarItem, NSTableViewDataSource, NSTableViewDelegate {
     var sort: Bool?
-    
+
     // 网络信息
     var bandwidth = Bandwidth()
-    
+
     // 文本最大宽度
     private lazy var maxStatusBarWidth: CGFloat = NSAttributedString(string: " 1024.12 KB/s ↑", attributes: textAttributes).size().width + 5
     private lazy var maxSingleCellWidth: CGFloat = {
-        return NSTextField(labelWithString: " 1024.12 KB/s ").intrinsicContentSize.width
-        }()
+        NSTextField(labelWithString: " 1024.12 KB/s ").intrinsicContentSize.width
+    }()
 
     private lazy var networkMenuItem: NSStatusItem = {
         NSStatusBar.system.statusItem(withLength: maxStatusBarWidth)
@@ -95,11 +95,10 @@ class NetworkBar: NSObject, BarItem, NSTableViewDataSource, NSTableViewDelegate 
 
         menu.addItem(quitItem)
         networkMenuItem.menu = menu
-        
+
 //        if let button = networkMenuItem.button, let superView = button.superview{
 //            button.widthAnchor.constraint(equalTo: superView.widthAnchor, constant: 0).isActive = true
 //        }
-        
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -115,7 +114,12 @@ class NetworkBar: NSObject, BarItem, NSTableViewDataSource, NSTableViewDelegate 
         if row == 0 {
             if tableColumn != tableView.tableColumns[0] {
                 content = tableColumn?.title
-                alignment = .center
+                switch tableColumn {
+                case tableView.tableColumns[1]: alignment = .center
+                case tableView.tableColumns[2]: alignment = .right
+                case tableView.tableColumns[3]: alignment = .right
+                default: break
+                }
             }
         } else {
             // 第一列是图标，其余为信息
