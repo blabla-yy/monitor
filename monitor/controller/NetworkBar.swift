@@ -9,17 +9,18 @@
 import Cocoa
 import Foundation
 
-// MARK: -NetworkBar
+// MARK: - NetworkBar
 
 extension NSUserInterfaceItemIdentifier {
     static let tableCellView = NSUserInterfaceItemIdentifier("TableCellView")
 }
 
-class NetworkBar: NSObject, BarItem, NSTableViewDataSource, NSTableViewDelegate {
+class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     var sort: Bool?
 
     // 网络信息
-    var bandwidth = Bandwidth()
+//    var bandwidth = NettopBandwidth()
+    var bandwidth = PnetBandwidth.instance
 
     // 文本最大宽度
     private lazy var maxStatusBarWidth: CGFloat = NSAttributedString(string: " 1024.12 KB/s ↑", attributes: textAttributes).size().width + 5
@@ -99,6 +100,7 @@ class NetworkBar: NSObject, BarItem, NSTableViewDataSource, NSTableViewDelegate 
 //        if let button = networkMenuItem.button, let superView = button.superview{
 //            button.widthAnchor.constraint(equalTo: superView.widthAnchor, constant: 0).isActive = true
 //        }
+        start()
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -183,13 +185,20 @@ class NetworkBar: NSObject, BarItem, NSTableViewDataSource, NSTableViewDelegate 
     }
 
     // 更新status bar
-    func updateView() {
-        bandwidth.refresh()
+    private func start() {
+        refresh()
+        bandwidth.start {
+            self.refresh()
+        }
+    }
+
+    func refresh() {
         let (download, upload) = bandwidth.total()
         DispatchQueue.main.async {
             if let button = self.networkMenuItem.button {
-                button.attributedTitle = NSAttributedString(string: "\n\(upload) ↑\n\(download) ↓", attributes: self.textAttributes)
+                button.attributedTitle = NSAttributedString(string: "\(upload) ↑\n\(download) ↓", attributes: self.textAttributes)
                 button.imagePosition = .imageLeft
+                //                button.alignment = .natural
                 self.tableView.reloadData()
             }
         }

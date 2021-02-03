@@ -7,11 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		75139B9C25C2B7A300FBE6EF /* Nettop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75139B9B25C2B7A300FBE6EF /* Nettop.swift */; };
 		753054F1238E5B0000072D6E /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753054F0238E5B0000072D6E /* StringUtils.swift */; };
+		753D339D25BAE26400762835 /* ThirdBandwidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753D339C25BAE26400762835 /* ThirdBandwidth.swift */; };
 		75515E6B23A0E84500A84695 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 75515E6D23A0E84500A84695 /* InfoPlist.strings */; };
 		755E5DED23546BE10055946F /* SysUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755E5DEC23546BE10055946F /* SysUtils.swift */; };
 		756662512355779600774160 /* NetworkBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756662502355779600774160 /* NetworkBar.swift */; };
 		7579DCE02372CFCB0083D47D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7579DCE22372CFCB0083D47D /* Localizable.strings */; };
+		758DE14625C262B90026A0B2 /* libnetwork_traffic_universal.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 758DE13D25C25E1E0026A0B2 /* libnetwork_traffic_universal.dylib */; };
 		75C65D9E2351AA2500A12690 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C65D9D2351AA2500A12690 /* AppDelegate.swift */; };
 		75C65DA02351AA2500A12690 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C65D9F2351AA2500A12690 /* ViewController.swift */; };
 		75C65DA22351AA2600A12690 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75C65DA12351AA2600A12690 /* Assets.xcassets */; };
@@ -22,9 +25,24 @@
 		75CE3747235704BB00245E91 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CE3746235704BB00245E91 /* CellView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		753D339125BADE1600762835 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		75139B9B25C2B7A300FBE6EF /* Nettop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nettop.swift; sourceTree = "<group>"; };
 		753054F0238E5B0000072D6E /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
 		753054F5238E679500072D6E /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		753D339C25BAE26400762835 /* ThirdBandwidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdBandwidth.swift; sourceTree = "<group>"; };
 		75515E6C23A0E84500A84695 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		75515E6E23A0E84900A84695 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		755E5DEC23546BE10055946F /* SysUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SysUtils.swift; sourceTree = "<group>"; };
@@ -32,6 +50,8 @@
 		7579DCE12372CFCB0083D47D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7579DCE32372D12B0083D47D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		7579DCE42372D12B0083D47D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		758DE13D25C25E1E0026A0B2 /* libnetwork_traffic_universal.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libnetwork_traffic_universal.dylib; path = "../bandwidth-rs/libnetwork_traffic_universal.dylib"; sourceTree = "<group>"; };
+		758DE14725C2630E0026A0B2 /* BandwidthMonitor-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BandwidthMonitor-Bridging-Header.h"; sourceTree = "<group>"; };
 		75C65D9A2351AA2500A12690 /* BandwidthMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BandwidthMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75C65D9D2351AA2500A12690 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		75C65D9F2351AA2500A12690 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -51,12 +71,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				758DE14625C262B90026A0B2 /* libnetwork_traffic_universal.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		753D338125BADCB000762835 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				758DE13D25C25E1E0026A0B2 /* libnetwork_traffic_universal.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		75C65D912351AA2500A12690 = {
 			isa = PBXGroup;
 			children = (
@@ -66,6 +95,7 @@
 				75CE374A2358737E00245E91 /* README.md */,
 				75C65D9C2351AA2500A12690 /* monitor */,
 				75C65D9B2351AA2500A12690 /* Products */,
+				753D338125BADCB000762835 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -107,6 +137,9 @@
 			isa = PBXGroup;
 			children = (
 				75C65DB12351AAAF00A12690 /* Bandwidth.swift */,
+				753D339C25BAE26400762835 /* ThirdBandwidth.swift */,
+				758DE14725C2630E0026A0B2 /* BandwidthMonitor-Bridging-Header.h */,
+				75139B9B25C2B7A300FBE6EF /* Nettop.swift */,
 			);
 			path = network;
 			sourceTree = "<group>";
@@ -139,6 +172,7 @@
 				75C65D962351AA2500A12690 /* Sources */,
 				75C65D972351AA2500A12690 /* Frameworks */,
 				75C65D982351AA2500A12690 /* Resources */,
+				753D339125BADE1600762835 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -161,7 +195,7 @@
 				TargetAttributes = {
 					75C65D992351AA2500A12690 = {
 						CreatedOnToolsVersion = 11.0;
-						LastSwiftMigration = 1100;
+						LastSwiftMigration = 1230;
 					};
 				};
 			};
@@ -206,12 +240,14 @@
 				753054F1238E5B0000072D6E /* StringUtils.swift in Sources */,
 				75C65DA02351AA2500A12690 /* ViewController.swift in Sources */,
 				75C65DAF2351AA7400A12690 /* StatusBarController.swift in Sources */,
+				75139B9C25C2B7A300FBE6EF /* Nettop.swift in Sources */,
 				75C65D9E2351AA2500A12690 /* AppDelegate.swift in Sources */,
 				75C65DB22351AAAF00A12690 /* Bandwidth.swift in Sources */,
 				756662512355779600774160 /* NetworkBar.swift in Sources */,
 				75CE3747235704BB00245E91 /* CellView.swift in Sources */,
 				75C65DB52351AC3E00A12690 /* CmdUtils.swift in Sources */,
 				755E5DED23546BE10055946F /* SysUtils.swift in Sources */,
+				753D339D25BAE26400762835 /* ThirdBandwidth.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,9 +414,11 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "/Users/wyy/Documents/network/bandwidth-rs";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.blabla.monitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "monitor/network/BandwidthMonitor-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -401,9 +439,11 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "/Users/wyy/Documents/network/bandwidth-rs";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.blabla.monitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "monitor/network/BandwidthMonitor-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;

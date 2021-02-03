@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>NetworkTraffic.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>monitor.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
@@ -17,7 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>753D338825BADE1600762835</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>75C65D992351AA2500A12690</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>75D81FCA25BE6D7F005774AA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
