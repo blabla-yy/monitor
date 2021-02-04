@@ -2,3 +2,5 @@
 "upload" = "上传数据";
 "download" = "下载数据";
 "quit" = "退出";
+"netop" = "使用Netop";
+"experiment" = "使用试验功能";

@@ -19,8 +19,8 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     var sort: Bool?
 
     // 网络信息
-//    var bandwidth = NettopBandwidth()
-    var bandwidth = PnetBandwidth.instance
+    var bandwidth = NettopBandwidth()
+//    var bandwidth = PnetBandwidth.instance
 
     // 文本最大宽度
     private lazy var maxStatusBarWidth: CGFloat = NSAttributedString(string: " 1024.12 KB/s ↑", attributes: textAttributes).size().width + 5
@@ -80,6 +80,20 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
         ] as [NSAttributedString.Key: Any]
     }()
 
+    private var experiment = false
+
+    private var experimentTitle: String {
+        if experiment {
+            return "netop".localized
+        } else {
+            return "experiment".localized
+        }
+    }
+
+    @objc private func switchExperimentNettop(_ sender: Any) {
+        experiment.toggle()
+    }
+
     override init() {
         super.init()
 
@@ -90,21 +104,28 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
         menu.addItem(item)
         menu.addItem(NSMenuItem.separator())
 
+//        let switchExperiment = NSMenuItem(title: experimentTitle, action: #selector(switchExperimentNettop(_:)), keyEquivalent: "")
+//        switchExperiment.isEnabled = true
+//        menu.addItem(switchExperiment)
+//        menu.addItem(NSMenuItem.separator())
+
         let quitItem = NSMenuItem(title: "quit".localized, action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         quitItem.keyEquivalentModifierMask = [.command]
         quitItem.isEnabled = true
-
         menu.addItem(quitItem)
-        networkMenuItem.menu = menu
 
-//        if let button = networkMenuItem.button, let superView = button.superview{
-//            button.widthAnchor.constraint(equalTo: superView.widthAnchor, constant: 0).isActive = true
-//        }
+        networkMenuItem.menu = menu
+        if let button = networkMenuItem.button {
+            button.attributedTitle = NSAttributedString(string: "0 ↑\n0 ↓", attributes: textAttributes)
+            button.imagePosition = .imageLeft
+            tableView.reloadData()
+        }
+
         start()
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return bandwidth.appInfo.count > 10 ? 10 : bandwidth.appInfo.count
+        return (bandwidth.appInfo.count > 10 ? 10 : bandwidth.appInfo.count) + 1
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -117,7 +138,7 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
             if tableColumn != tableView.tableColumns[0] {
                 content = tableColumn?.title
                 switch tableColumn {
-                case tableView.tableColumns[1]: alignment = .center
+                case tableView.tableColumns[1]: alignment = .left
                 case tableView.tableColumns[2]: alignment = .right
                 case tableView.tableColumns[3]: alignment = .right
                 default: break
@@ -186,7 +207,6 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
 
     // 更新status bar
     private func start() {
-        refresh()
         bandwidth.start {
             self.refresh()
         }

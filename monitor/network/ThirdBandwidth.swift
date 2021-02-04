@@ -8,12 +8,12 @@
 
 import Cocoa
 import Foundation
-import NetworkTraffic
 
 class PnetBandwidth: Bandwidth {
     static let instance = PnetBandwidth()
 
-    override private init() {}
+    override private init() {
+    }
 
     private static func convert<T>(count: Int, data: UnsafePointer<T>) -> [T] {
         let buffer = UnsafeBufferPointer(start: data, count: count)
@@ -26,11 +26,11 @@ class PnetBandwidth: Bandwidth {
 
     override func start(_ callback: @escaping () -> Void) {
         self.callback = callback
-        take { statistic in
-            print("elpase time \(statistic.elapse_millisecond)")
-            print("length \(statistic.length)")
-            PnetBandwidth.instance.info = PnetBandwidth.convert(count: Int(statistic.length), data: statistic.list)
-            PnetBandwidth.instance.update()
+        DispatchQueue.global().async {
+            take { statistic in
+                PnetBandwidth.instance.info = PnetBandwidth.convert(count: Int(statistic.length), data: statistic.list)
+                PnetBandwidth.instance.update()
+            }
         }
     }
 
