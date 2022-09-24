@@ -8,10 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		75139B9C25C2B7A300FBE6EF /* Nettop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75139B9B25C2B7A300FBE6EF /* Nettop.swift */; };
-		7529F0F725CBDCB80015D181 /* libNetworkTraffic.a in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7529F0F625CBDCB80015D181 /* libNetworkTraffic.a */; };
-		7529F0F825CBDCE90015D181 /* libNetworkTraffic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7529F0F625CBDCB80015D181 /* libNetworkTraffic.a */; };
 		753054F1238E5B0000072D6E /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753054F0238E5B0000072D6E /* StringUtils.swift */; };
-		753D339D25BAE26400762835 /* ThirdBandwidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753D339C25BAE26400762835 /* ThirdBandwidth.swift */; };
 		75515E6B23A0E84500A84695 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 75515E6D23A0E84500A84695 /* InfoPlist.strings */; };
 		755E5DED23546BE10055946F /* SysUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755E5DEC23546BE10055946F /* SysUtils.swift */; };
 		756662512355779600774160 /* NetworkBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756662502355779600774160 /* NetworkBar.swift */; };
@@ -33,7 +30,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				7529F0F725CBDCB80015D181 /* libNetworkTraffic.a in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -42,10 +38,8 @@
 
 /* Begin PBXFileReference section */
 		75139B9B25C2B7A300FBE6EF /* Nettop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nettop.swift; sourceTree = "<group>"; };
-		7529F0F625CBDCB80015D181 /* libNetworkTraffic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libNetworkTraffic.a; sourceTree = "<group>"; };
 		753054F0238E5B0000072D6E /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
 		753054F5238E679500072D6E /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		753D339C25BAE26400762835 /* ThirdBandwidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdBandwidth.swift; sourceTree = "<group>"; };
 		75515E6C23A0E84500A84695 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		75515E6E23A0E84900A84695 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		755E5DEC23546BE10055946F /* SysUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SysUtils.swift; sourceTree = "<group>"; };
@@ -53,7 +47,6 @@
 		7579DCE12372CFCB0083D47D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7579DCE32372D12B0083D47D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		7579DCE42372D12B0083D47D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		758DE14725C2630E0026A0B2 /* BandwidthMonitor-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BandwidthMonitor-Bridging-Header.h"; sourceTree = "<group>"; };
 		75C65D9A2351AA2500A12690 /* BandwidthMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BandwidthMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75C65D9D2351AA2500A12690 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		75C65D9F2351AA2500A12690 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -73,7 +66,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7529F0F825CBDCE90015D181 /* libNetworkTraffic.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,7 +82,6 @@
 		75C65D912351AA2500A12690 = {
 			isa = PBXGroup;
 			children = (
-				7529F0F625CBDCB80015D181 /* libNetworkTraffic.a */,
 				75515E6D23A0E84500A84695 /* InfoPlist.strings */,
 				753054F5238E679500072D6E /* CHANGELOG.md */,
 				7579DCE22372CFCB0083D47D /* Localizable.strings */,
@@ -139,8 +130,6 @@
 			isa = PBXGroup;
 			children = (
 				75C65DB12351AAAF00A12690 /* Bandwidth.swift */,
-				753D339C25BAE26400762835 /* ThirdBandwidth.swift */,
-				758DE14725C2630E0026A0B2 /* BandwidthMonitor-Bridging-Header.h */,
 				75139B9B25C2B7A300FBE6EF /* Nettop.swift */,
 			);
 			path = network;
@@ -192,7 +181,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = yahaha;
 				TargetAttributes = {
 					75C65D992351AA2500A12690 = {
@@ -249,7 +238,6 @@
 				75CE3747235704BB00245E91 /* CellView.swift in Sources */,
 				75C65DB52351AC3E00A12690 /* CmdUtils.swift in Sources */,
 				755E5DED23546BE10055946F /* SysUtils.swift in Sources */,
-				753D339D25BAE26400762835 /* ThirdBandwidth.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +309,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -383,6 +372,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -410,8 +400,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = monitor/monitor.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = E29933B74S;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -425,7 +417,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.blabla.monitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "monitor/network/BandwidthMonitor-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -438,8 +429,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = monitor/monitor.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = E29933B74S;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -453,7 +446,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.blabla.monitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "monitor/network/BandwidthMonitor-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
