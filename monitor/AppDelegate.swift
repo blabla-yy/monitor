@@ -12,12 +12,10 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     let networkBar = NetworkBar()
     override init(){
-        print("init")
     }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-        print("!!!")
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
