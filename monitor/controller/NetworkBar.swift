@@ -156,10 +156,10 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
                     content = String(info.name)
                     alignment = .left
                 case tableView.tableColumns[2]:
-                    content = Bandwidth.formatSpeed(v: info.bytesOut)
+                    content = info.formatOut
                     alignment = .right
                 case tableView.tableColumns[3]:
-                    content = Bandwidth.formatSpeed(v: info.bytesIn)
+                    content = info.formatIn
                     alignment = .right
                 default:
                     content = ""
@@ -226,6 +226,6 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
 
     // 停止，清除已缓存的信息
     func stop() {
-        bandwidth.clear()
+        bandwidth.stop()
     }
 }
