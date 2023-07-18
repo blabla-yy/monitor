@@ -10,11 +10,14 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    let statusBar = IStatusBar()
+    let networkBar = NetworkBar()
+    override init(){
+        print("init")
+    }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-        statusBar.start()
+        print("!!!")
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

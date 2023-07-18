@@ -8,6 +8,7 @@
 
 import Cocoa
 import Foundation
+import SwiftUI
 
 // 进程流量信息
 fileprivate struct Networks {
@@ -24,41 +25,14 @@ struct AppNetworks {
     let image: NSImage?
     var bytesIn: UInt
     var bytesOut: UInt
-    
-    var formatIn: String {
-        formatSpeed(v: bytesIn)
-    }
-    
-    var formatOut: String {
-        formatSpeed(v: bytesOut)
-    }
 }
 
-func formatSpeed(v: UInt) -> String {
-    if v == 0 {
-        return "0 B/s"
-    }
-    if v / 1024 < 1 {
-        return "\(v) B/s"
-    }
 
-    var value = Double(v) / 1024.0
-    if value / 1024 < 1 {
-        return String(format: "%.2f KB/s", value)
-    }
-
-    value = Double(value) / 1024.0
-    if value / 1024 < 1 {
-        return String(format: "%.2f MB/s", value)
-    }
-
-    value = Double(value) / 1024
-    return String(format: "%.2f GB/s", value)
-}
-
-class NettopBandwidth {
+class NettopBandwidth: ObservableObject {
     // 最终输出使用
-    var appInfo: [AppNetworks] = []
+    @Published var appBandwidthInfo: [AppNetworks] = []
+    @Published var totalBytesIn: UInt = 0
+    @Published var totalBytesOut: UInt = 0
 
     // 进程相关
     let cmd: [String]
@@ -68,7 +42,7 @@ class NettopBandwidth {
     var buffer: [String] = []
 
     var onRefresh: () -> Void
-    
+
     init() {
         let shell = "nettop -t wifi -t wired -k rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,interface,state,arch -d -L 0 -P -n"
         cmd = shell.split(separator: " ").map { String($0) }
@@ -78,15 +52,14 @@ class NettopBandwidth {
 
     func start(_ callback: @escaping () -> Void) {
         process?.terminate()
-        self.onRefresh = callback
+        onRefresh = callback
         process = ProcessHelper.start(arguments: cmd, stdout: parseStdout)
-        
     }
-    
+
     func stop() {
         process?.terminate()
-        self.appInfo.removeAll(keepingCapacity: true)
-        self.buffer.removeAll(keepingCapacity: true)
+        appBandwidthInfo.removeAll(keepingCapacity: true)
+        buffer.removeAll(keepingCapacity: true)
     }
 
     func parseStdout(data: Data) {
@@ -109,11 +82,11 @@ class NettopBandwidth {
     }
 
     private func refreshData(strings: [String]) {
-//        info.removeAll(keepingCapacity: true)
-        appInfo.removeAll(keepingCapacity: true)
-
+        appBandwidthInfo.removeAll(keepingCapacity: true)
         var map: [Int32: AppNetworks] = [:]
 
+        var totalInput: UInt = 0
+        var totalOutput: UInt = 0
         for s in strings {
             let fields = s.split(separator: ",").map({ String($0) })
             if fields.count >= 4 {
@@ -124,23 +97,16 @@ class NettopBandwidth {
                 let output = UInt(fields[3]) ?? 0
                 let item = Networks(id: id, name: name, bytesIn: input, bytesOut: output)
                 addAppInfo(item, map: &map)
+                totalInput += item.bytesIn
+                totalOutput += item.bytesOut
             }
         }
-
-        appInfo = map.values.sorted {
+        self.totalBytesIn = totalInput
+        self.totalBytesOut = totalOutput
+        self.appBandwidthInfo = map.values.sorted {
             $0.bytesIn == $1.bytesIn ? $0.name > $1.name : $0.bytesIn > $1.bytesIn
         }
-        self.onRefresh()
-    }
-
-    func total() -> (String, String) {
-        var input: UInt = 0
-        var output: UInt = 0
-        for item in appInfo {
-            input += item.bytesIn
-            output += item.bytesOut
-        }
-        return (formatSpeed(v: input), formatSpeed(v: output))
+        onRefresh()
     }
 
     private func addAppInfo(_ item: Networks, map: inout [Int32: AppNetworks]) {

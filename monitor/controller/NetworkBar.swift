@@ -24,6 +24,7 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
 
     // 文本最大宽度
     private lazy var maxStatusBarWidth: CGFloat = NSAttributedString(string: " 1024.12 KB/s ↑", attributes: textAttributes).size().width + 5
+    private let maxWidth = "1024.12 KB/s".count
     private lazy var maxSingleCellWidth: CGFloat = {
         NSTextField(labelWithString: " 1024.12 KB/s ").intrinsicContentSize.width
     }()
@@ -125,7 +126,7 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return (bandwidth.appInfo.count > 10 ? 10 : bandwidth.appInfo.count) + 1
+        return (bandwidth.appBandwidthInfo.count > 10 ? 10 : bandwidth.appBandwidthInfo.count) + 1
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -146,7 +147,7 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
             }
         } else {
             // 第一列是图标，其余为信息
-            let array = bandwidth.appInfo
+            let array = bandwidth.appBandwidthInfo
             if array.count > row - 1 {
                 let info = array[row - 1]
                 switch tableColumn {
@@ -156,10 +157,10 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
                     content = String(info.name)
                     alignment = .left
                 case tableView.tableColumns[2]:
-                    content = info.formatOut
+                    content = info.bytesOut.speedFormatted
                     alignment = .right
                 case tableView.tableColumns[3]:
-                    content = info.formatIn
+                    content = info.bytesIn.speedFormatted
                     alignment = .right
                 default:
                     content = ""
@@ -213,11 +214,20 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func refresh() {
-        let (download, upload) = bandwidth.total()
         DispatchQueue.main.async {
             if let button = self.networkMenuItem.button {
+                var upload = self.bandwidth.totalBytesOut.speedFormatted
+                if upload.count < self.maxWidth {
+                    upload = String(repeating: String(" "), count: max(0, self.maxWidth - upload.count)) + upload
+                }
+                var download = self.bandwidth.totalBytesIn.speedFormatted
+                if download.count < self.maxWidth {
+                    download = String(repeating: String(" "), count: max(0, self.maxWidth - download.count)) + download
+                }
                 button.attributedTitle = NSAttributedString(string: "\(upload) ↑\n\(download) ↓", attributes: self.textAttributes)
                 button.imagePosition = .imageLeft
+                let cell = button.cell as? NSButtonCell
+                cell?.alignment = .right
                 //                button.alignment = .natural
                 self.tableView.reloadData()
             }
