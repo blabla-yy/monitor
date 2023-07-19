@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Cocoa
 
 func handleCmdOutput(arguments: [String]) -> String? {
     let process = Process()
@@ -27,19 +28,30 @@ func handleCmdOutput(arguments: [String]) -> String? {
 
 struct ProcessHelper {
     let process: Process
+    let stdoutFD: FileHandle
+    let stderrFD: FileHandle
 
+    static func getPreferredShell() -> String {
+        let fileManager = FileManager.default
+
+        if fileManager.fileExists(atPath: "/bin/zsh") {
+            return "/bin/zsh"
+        } else {
+            return "/bin/bash"
+        }
+    }
+    
     static func start(arguments: [String],
                       stdout: @escaping (Data) -> Void) -> ProcessHelper {
         let process = Process()
         let output = Pipe()
         let readingHandle = output.fileHandleForReading
-        process.launchPath = "/usr/bin/env"
+        process.launchPath = ProcessHelper.getPreferredShell()
         process.arguments = arguments
         process.standardOutput = output
 
         let stderr = Pipe()
         process.standardError = stderr
-
         readingHandle.readabilityHandler = { fileHandle in
             let data = fileHandle.availableData
             if data.isEmpty {
@@ -58,11 +70,8 @@ struct ProcessHelper {
                 print("process has error: \(output)")
             }
         }
-//        if #available(macOS 10.13, *) {
-//            process.run()
-//        } else {
         process.launch()
-        return ProcessHelper(process: process)
+        return ProcessHelper(process: process, stdoutFD: readingHandle, stderrFD: stderr.fileHandleForReading)
     }
 
     func isRunning() -> Bool {
@@ -72,12 +81,16 @@ struct ProcessHelper {
     func wait() {
         if process.isRunning {
             process.waitUntilExit()
+            try? self.stderrFD.close()
+            try? self.stdoutFD.close()
         }
     }
 
     func terminate() {
         if process.isRunning {
             process.terminate()
+            try? self.stderrFD.close()
+            try? self.stdoutFD.close()
         }
     }
 }

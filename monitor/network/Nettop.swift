@@ -27,7 +27,6 @@ struct AppNetworks {
     var bytesOut: UInt
 }
 
-
 class NettopBandwidth: ObservableObject {
     // 最终输出使用
     @Published var appBandwidthInfo: [AppNetworks] = []
@@ -44,8 +43,8 @@ class NettopBandwidth: ObservableObject {
     var onRefresh: () -> Void
 
     init() {
-        let shell = "nettop -t wifi -t wired -k rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,interface,state,arch -d -L 0 -P -n"
-        cmd = shell.split(separator: " ").map { String($0) }
+        let shell = "export STDBUF=\"U\" && nettop -t wifi -t wired -k rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,interface,state,arch -d -L 0 -P -n -s 1"
+        cmd = ["-c", shell]
         process = nil
         onRefresh = {}
     }
@@ -101,9 +100,9 @@ class NettopBandwidth: ObservableObject {
                 totalOutput += item.bytesOut
             }
         }
-        self.totalBytesIn = totalInput
-        self.totalBytesOut = totalOutput
-        self.appBandwidthInfo = map.values.sorted {
+        totalBytesIn = totalInput
+        totalBytesOut = totalOutput
+        appBandwidthInfo = map.values.sorted {
             $0.bytesIn == $1.bytesIn ? $0.name > $1.name : $0.bytesIn > $1.bytesIn
         }
         onRefresh()
