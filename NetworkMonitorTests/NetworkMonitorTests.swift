@@ -1,6 +1,6 @@
 //
-//  BandwidthMonitorTests.swift
-//  BandwidthMonitorTests
+//  NetworkMonitorTests.swift
+//  NetworkMonitorTests
 //
 //  Created by wyy on 2023/7/18.
 //  Copyright © 2023 yahaha. All rights reserved.
@@ -8,7 +8,7 @@
 
 import XCTest
 
-final class BandwidthMonitorTests: XCTestCase {
+final class NetworkMonitorTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

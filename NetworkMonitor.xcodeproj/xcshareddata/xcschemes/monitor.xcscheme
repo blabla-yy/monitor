@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "75C65D992351AA2500A12690"
-               BuildableName = "BandwidthMonitor.app"
-               BlueprintName = "BandwidthMonitor"
-               ReferencedContainer = "container:BandwidthMonitor.xcodeproj">
+               BuildableName = "NetworkMonitor.app"
+               BlueprintName = "NetworkMonitor"
+               ReferencedContainer = "container:NetworkMonitor.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,9 +34,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "753FCFBF2A664315004B9FF3"
-               BuildableName = "BandwidthMonitorTests.xctest"
-               BlueprintName = "BandwidthMonitorTests"
-               ReferencedContainer = "container:BandwidthMonitor.xcodeproj">
+               BuildableName = "NetworkMonitorTests.xctest"
+               BlueprintName = "NetworkMonitorTests"
+               ReferencedContainer = "container:NetworkMonitor.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "75C65D992351AA2500A12690"
-            BuildableName = "BandwidthMonitor.app"
-            BlueprintName = "BandwidthMonitor"
-            ReferencedContainer = "container:BandwidthMonitor.xcodeproj">
+            BuildableName = "NetworkMonitor.app"
+            BlueprintName = "NetworkMonitor"
+            ReferencedContainer = "container:NetworkMonitor.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -74,9 +74,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "75C65D992351AA2500A12690"
-            BuildableName = "BandwidthMonitor.app"
-            BlueprintName = "BandwidthMonitor"
-            ReferencedContainer = "container:BandwidthMonitor.xcodeproj">
+            BuildableName = "NetworkMonitor.app"
+            BlueprintName = "NetworkMonitor"
+            ReferencedContainer = "container:NetworkMonitor.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

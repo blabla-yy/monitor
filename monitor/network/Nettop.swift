@@ -27,9 +27,9 @@ struct AppNetworks {
     var bytesOut: UInt
 }
 
-class NettopBandwidth: ObservableObject {
+class Nettop: ObservableObject {
     // 最终输出使用
-    @Published var appBandwidthInfo: [AppNetworks] = []
+    @Published var appNetworkTrafficInfo: [AppNetworks] = []
     @Published var totalBytesIn: UInt = 0
     @Published var totalBytesOut: UInt = 0
 
@@ -57,7 +57,7 @@ class NettopBandwidth: ObservableObject {
 
     func stop() {
         process?.terminate()
-        appBandwidthInfo.removeAll(keepingCapacity: true)
+        appNetworkTrafficInfo.removeAll(keepingCapacity: true)
         buffer.removeAll(keepingCapacity: true)
     }
 
@@ -81,7 +81,7 @@ class NettopBandwidth: ObservableObject {
     }
 
     private func refreshData(strings: [String]) {
-        appBandwidthInfo.removeAll(keepingCapacity: true)
+        appNetworkTrafficInfo.removeAll(keepingCapacity: true)
         var map: [Int32: AppNetworks] = [:]
 
         var totalInput: UInt = 0
@@ -102,7 +102,7 @@ class NettopBandwidth: ObservableObject {
         }
         totalBytesIn = totalInput
         totalBytesOut = totalOutput
-        appBandwidthInfo = map.values.sorted {
+        appNetworkTrafficInfo = map.values.sorted {
             $0.bytesIn == $1.bytesIn ? $0.name > $1.name : $0.bytesIn > $1.bytesIn
         }
         onRefresh()

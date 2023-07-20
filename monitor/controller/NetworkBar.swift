@@ -19,7 +19,7 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     var sort: Bool?
 
     // 网络信息
-    var bandwidth = NettopBandwidth()
+    var networkTraffic = Nettop()
 //    var bandwidth = PnetBandwidth.instance
 
     // 文本最大宽度
@@ -126,7 +126,7 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return (bandwidth.appBandwidthInfo.count > 10 ? 10 : bandwidth.appBandwidthInfo.count) + 1
+        return (networkTraffic.appNetworkTrafficInfo.count > 10 ? 10 : networkTraffic.appNetworkTrafficInfo.count) + 1
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -147,7 +147,7 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
             }
         } else {
             // 第一列是图标，其余为信息
-            let array = bandwidth.appBandwidthInfo
+            let array = networkTraffic.appNetworkTrafficInfo
             if array.count > row - 1 {
                 let info = array[row - 1]
                 switch tableColumn {
@@ -208,7 +208,7 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
 
     // 更新status bar
     private func start() {
-        bandwidth.start {
+        networkTraffic.start {
             self.refresh()
         }
     }
@@ -216,11 +216,11 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     func refresh() {
         DispatchQueue.main.async {
             if let button = self.networkMenuItem.button {
-                var upload = self.bandwidth.totalBytesOut.speedFormatted
+                var upload = self.networkTraffic.totalBytesOut.speedFormatted
                 if upload.count < self.maxWidth {
                     upload = String(repeating: String(" "), count: max(0, self.maxWidth - upload.count)) + upload
                 }
-                var download = self.bandwidth.totalBytesIn.speedFormatted
+                var download = self.networkTraffic.totalBytesIn.speedFormatted
                 if download.count < self.maxWidth {
                     download = String(repeating: String(" "), count: max(0, self.maxWidth - download.count)) + download
                 }
@@ -236,6 +236,6 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
 
     // 停止，清除已缓存的信息
     func stop() {
-        bandwidth.stop()
+        networkTraffic.stop()
     }
 }
