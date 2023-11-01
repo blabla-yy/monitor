@@ -121,7 +121,6 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
             if let mainWindow = NSApplication.shared.mainWindow {
                 mainWindow.orderFrontRegardless()
                 mainWindow.makeKey()
-                print("exist main window")
                 return
             }
             let exist = NSApplication.shared.windows.first { window in

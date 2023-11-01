@@ -67,7 +67,7 @@ struct ProcessHelper {
             }
             let output = String(data: data, encoding: .utf8) ?? ""
             if !output.isEmpty {
-                print("process has error: \(output)")
+                Log.shared.error("process has error: \(output)")
             }
         }
         process.launch()

@@ -16,7 +16,7 @@ struct ContentView: View {
                 NavigationLink("Real-time", value: 0)
                 NavigationLink("Setting", value: 1)
             }
-            
+
         }, detail: {
             if detail == 0 {
                 RealTimeNetworkTrafficView()
@@ -26,8 +26,6 @@ struct ContentView: View {
         })
     }
 }
-
-
 
 struct RealTimeNetworkTrafficView: View {
     @EnvironmentObject var nettop: Nettop

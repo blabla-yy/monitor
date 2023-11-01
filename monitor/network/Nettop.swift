@@ -139,7 +139,7 @@ class Nettop: ObservableObject {
 
         let drawLess = self.drawLess ? " -c " : ""
         let shell = "export STDBUF=\"U\" && nettop \(drawLess) \(mode) \(type) -k rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,interface,state,arch -d -L 0 -P -n -s 1"
-        print(shell)
+        Log.shared.info("\(shell)")
         cmd = ["-c", shell]
         start()
     }
@@ -200,9 +200,6 @@ class Nettop: ObservableObject {
             self.totalBytesIn = totalInput
             self.totalBytesOut = totalOutput
             self.appNetworkTrafficInfo = map.values.sorted(using: self.sortOrder)
-            if self.appNetworkTrafficInfo.isEmpty {
-                print("appNetworkTrafficInfo is empty")
-            }
             NotificationCenter.default.post(name: .networkInfoChangeNotification, object: nil)
         }
     }
