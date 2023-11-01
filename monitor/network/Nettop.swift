@@ -19,7 +19,7 @@ fileprivate struct Networks {
 }
 
 // 包含App得进程流量信息
-struct AppNetworks {
+struct AppNetworks: Identifiable {
     let id: Int32
     let name: String
     let image: NSImage?
@@ -27,9 +27,14 @@ struct AppNetworks {
     var bytesOut: UInt
 }
 
+extension Notification.Name {
+    static let networkInfoChangeNotification = Notification.Name("networkInfoChangeNotification")
+}
+
 class Nettop: ObservableObject {
     // 最终输出使用
     @Published var appNetworkTrafficInfo: [AppNetworks] = []
+    @Published var sortOrder = [KeyPathComparator(\AppNetworks.bytesIn, order: .reverse)]
     @Published var totalBytesIn: UInt = 0
     @Published var totalBytesOut: UInt = 0
 
@@ -40,19 +45,23 @@ class Nettop: ObservableObject {
     // 缓冲
     var buffer: [String] = []
 
-    var onRefresh: () -> Void
-
     init() {
         let shell = "export STDBUF=\"U\" && nettop -t wifi -t wired -k rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,interface,state,arch -d -L 0 -P -n -s 1"
         cmd = ["-c", shell]
         process = nil
-        onRefresh = {}
+        
+        self.start()
+    }
+    
+    deinit {
+        self.stop()
     }
 
-    func start(_ callback: @escaping () -> Void) {
-        process?.terminate()
-        onRefresh = callback
-        process = ProcessHelper.start(arguments: cmd, stdout: parseStdout)
+    func start() {
+        DispatchQueue.global(qos: .userInteractive).async {
+            self.process?.terminate()
+            self.process = ProcessHelper.start(arguments: self.cmd, stdout: self.parseStdout)
+        }
     }
 
     func stop() {
@@ -81,7 +90,7 @@ class Nettop: ObservableObject {
     }
 
     private func refreshData(strings: [String]) {
-        appNetworkTrafficInfo.removeAll(keepingCapacity: true)
+//        appNetworkTrafficInfo.removeAll(keepingCapacity: true)
         var map: [Int32: AppNetworks] = [:]
 
         var totalInput: UInt = 0
@@ -95,20 +104,23 @@ class Nettop: ObservableObject {
                 let input = UInt(fields[2]) ?? 0
                 let output = UInt(fields[3]) ?? 0
                 let item = Networks(id: id, name: name, bytesIn: input, bytesOut: output)
-                addAppInfo(item, map: &map)
+                Nettop.addAppInfo(item, map: &map)
                 totalInput += item.bytesIn
                 totalOutput += item.bytesOut
             }
         }
-        totalBytesIn = totalInput
-        totalBytesOut = totalOutput
-        appNetworkTrafficInfo = map.values.sorted {
-            $0.bytesIn == $1.bytesIn ? $0.name > $1.name : $0.bytesIn > $1.bytesIn
+        DispatchQueue.main.async {
+            self.totalBytesIn = totalInput
+            self.totalBytesOut = totalOutput
+            self.appNetworkTrafficInfo = map.values.sorted(using: self.sortOrder)
+            if self.appNetworkTrafficInfo.isEmpty {
+                print("appNetworkTrafficInfo is empty")
+            }
+            NotificationCenter.default.post(name: .networkInfoChangeNotification, object: nil)
         }
-        onRefresh()
     }
 
-    private func addAppInfo(_ item: Networks, map: inout [Int32: AppNetworks]) {
+    private static func addAppInfo(_ item: Networks, map: inout [Int32: AppNetworks]) {
         if let pid = Int32(item.id) {
             let ppid = SysUtils.rootPid(pid: pid)
             if var app = map[ppid] {

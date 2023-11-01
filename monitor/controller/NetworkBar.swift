@@ -8,6 +8,7 @@
 
 import Cocoa
 import Foundation
+import SwiftUI
 
 // MARK: - NetworkBar
 
@@ -16,11 +17,14 @@ extension NSUserInterfaceItemIdentifier {
 }
 
 class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
-    var sort: Bool?
-
     // 网络信息
-    var networkTraffic = Nettop()
-//    var bandwidth = PnetBandwidth.instance
+//    var networkTraffic = Nettop()
+    let networkTraffic: Nettop
+
+    init(networkTraffic: Nettop) {
+        self.networkTraffic = networkTraffic
+//        self.openWindow = openWindow
+    }
 
     // 文本最大宽度
     private lazy var maxStatusBarWidth: CGFloat = NSAttributedString(string: " 1024.12 KB/s ↑", attributes: textAttributes).size().width + 5
@@ -81,23 +85,7 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
         ] as [NSAttributedString.Key: Any]
     }()
 
-    private var experiment = false
-
-    private var experimentTitle: String {
-        if experiment {
-            return "netop".localized
-        } else {
-            return "experiment".localized
-        }
-    }
-
-    @objc private func switchExperimentNettop(_ sender: Any) {
-        experiment.toggle()
-    }
-
-    override init() {
-        super.init()
-
+    func setupMenu() {
         let menu = NSMenu()
         let item = NSMenuItem()
         item.isEnabled = true
@@ -105,10 +93,11 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
         menu.addItem(item)
         menu.addItem(NSMenuItem.separator())
 
-//        let switchExperiment = NSMenuItem(title: experimentTitle, action: #selector(switchExperimentNettop(_:)), keyEquivalent: "")
-//        switchExperiment.isEnabled = true
-//        menu.addItem(switchExperiment)
-//        menu.addItem(NSMenuItem.separator())
+        let mainWindow = NSMenuItem(title: "open main window".localized, action: #selector(openMainWindow), keyEquivalent: "n")
+        mainWindow.keyEquivalentModifierMask = [.command]
+        mainWindow.target = self
+        mainWindow.isEnabled = true
+        menu.addItem(mainWindow)
 
         let quitItem = NSMenuItem(title: "quit".localized, action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         quitItem.keyEquivalentModifierMask = [.command]
@@ -122,7 +111,37 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
             tableView.reloadData()
         }
 
-        start()
+        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: .networkInfoChangeNotification, object: nil)
+    }
+
+    // trick
+    var openWindow: OpenWindowAction?
+    @objc func openMainWindow() {
+        DispatchQueue.main.async {
+            if let mainWindow = NSApplication.shared.mainWindow {
+                mainWindow.orderFrontRegardless()
+                mainWindow.makeKey()
+                print("exist main window")
+                return
+            }
+            let exist = NSApplication.shared.windows.first { window in
+                window.canBecomeMain
+            }
+            if let exist = exist {
+                exist.makeMain()
+                exist.orderFrontRegardless()
+                exist.makeKey()
+                return
+            }
+
+            self.openWindow?.callAsFunction(id: Main.id)
+            let window = NSApplication.shared.windows.first { window in
+                window.canBecomeMain
+            }
+            window?.makeMain()
+            window?.orderFrontRegardless()
+            window?.makeKey()
+        }
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -206,31 +225,22 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
         return cellView
     }
 
-    // 更新status bar
-    private func start() {
-        networkTraffic.start {
-            self.refresh()
-        }
-    }
-
-    func refresh() {
-        DispatchQueue.main.async {
-            if let button = self.networkMenuItem.button {
-                var upload = self.networkTraffic.totalBytesOut.speedFormatted
-                if upload.count < self.maxWidth {
-                    upload = String(repeating: String(" "), count: max(0, self.maxWidth - upload.count)) + upload
-                }
-                var download = self.networkTraffic.totalBytesIn.speedFormatted
-                if download.count < self.maxWidth {
-                    download = String(repeating: String(" "), count: max(0, self.maxWidth - download.count)) + download
-                }
-                button.attributedTitle = NSAttributedString(string: "\(upload) ↑\n\(download) ↓", attributes: self.textAttributes)
-                button.imagePosition = .imageLeft
-                let cell = button.cell as? NSButtonCell
-                cell?.alignment = .right
-                //                button.alignment = .natural
-                self.tableView.reloadData()
+    @objc func refresh() {
+        if let button = networkMenuItem.button {
+            var upload = networkTraffic.totalBytesOut.speedFormatted
+            if upload.count < maxWidth {
+                upload = String(repeating: String(" "), count: max(0, maxWidth - upload.count)) + upload
             }
+            var download = networkTraffic.totalBytesIn.speedFormatted
+            if download.count < maxWidth {
+                download = String(repeating: String(" "), count: max(0, maxWidth - download.count)) + download
+            }
+            button.attributedTitle = NSAttributedString(string: "\(upload) ↑\n\(download) ↓", attributes: textAttributes)
+            button.imagePosition = .imageLeft
+            let cell = button.cell as? NSButtonCell
+            cell?.alignment = .right
+            //                button.alignment = .natural
+            tableView.reloadData()
         }
     }
 

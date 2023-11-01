@@ -6,21 +6,34 @@
 //  Copyright © 2019 yahaha. All rights reserved.
 //
 
+import AppKit
 import Cocoa
 
-@NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    let networkBar = NetworkBar()
-    override init(){
-    }
-    
+    var networkBar: NetworkBar?
+    var nettop: Nettop = .init()
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        if networkBar == nil {
+            networkBar = NetworkBar(networkTraffic: nettop)
+            networkBar?.setupMenu()
+        }
+        if NSApplication.shared.mainWindow == nil {
+            let mainWindow = NSApplication.shared.windows.first { window in
+                window.canBecomeMain
+            }
+            mainWindow?.makeMain()
+        }
+    }
+
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        return true
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+        networkBar?.networkTraffic.stop()
     }
 
-
+    func applicationWillBecomeActive(_ notification: Notification) {
+    }
 }
