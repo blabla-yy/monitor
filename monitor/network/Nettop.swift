@@ -31,6 +31,48 @@ extension Notification.Name {
     static let networkInfoChangeNotification = Notification.Name("networkInfoChangeNotification")
 }
 
+enum NettopType: String, Identifiable, CustomStringConvertible, CaseIterable {
+    var description: String {
+        rawValue
+    }
+
+    var localized: String {
+        NSLocalizedString(self.description, comment: "")
+    }
+    
+    var id: Self {
+        return self
+    }
+
+    case wifi
+    case wired
+    case loopback
+    case awdl
+//    case expensive
+//    case undefined
+    case external
+    case all
+}
+
+enum NettopMode: String, Identifiable, CustomStringConvertible, CaseIterable {
+    var id: Self {
+        return self
+    }
+    
+    var localized: String {
+        NSLocalizedString(self.description, comment: "")
+    }
+
+    var description: String {
+        rawValue
+    }
+
+    case tcpAndUdp
+    case tcp
+    case udp
+    case route
+}
+
 class Nettop: ObservableObject {
     // 最终输出使用
     @Published var appNetworkTrafficInfo: [AppNetworks] = []
@@ -38,23 +80,68 @@ class Nettop: ObservableObject {
     @Published var totalBytesIn: UInt = 0
     @Published var totalBytesOut: UInt = 0
 
+    @Published var drawLess: Bool {
+        didSet {
+            rebuildCmdAndRestart()
+            UserDefaults.standard.setValue(drawLess, forKey: "drawLess")
+        }
+    }
+
+    @Published var type: NettopType {
+        didSet {
+            rebuildCmdAndRestart()
+            UserDefaults.standard.setValue(type.description, forKey: "type")
+        }
+    }
+
+    @Published var mode: NettopMode {
+        didSet {
+            rebuildCmdAndRestart()
+            UserDefaults.standard.setValue(mode.description, forKey: "mode")
+        }
+    }
+
     // 进程相关
-    let cmd: [String]
+    var cmd: [String]
     var process: ProcessHelper?
 
     // 缓冲
     var buffer: [String] = []
 
     init() {
-        let shell = "export STDBUF=\"U\" && nettop -t wifi -t wired -k rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,interface,state,arch -d -L 0 -P -n -s 1"
-        cmd = ["-c", shell]
+        self.drawLess = (UserDefaults.standard.object(forKey: "drawLess") as? Bool) ?? true
+        self.type = NettopType(rawValue: (UserDefaults.standard.object(forKey: "type") as? String) ?? "") ?? .external
+        self.mode = NettopMode(rawValue: (UserDefaults.standard.object(forKey: "mode") as? String) ?? "") ?? .tcpAndUdp
+        cmd = []
         process = nil
-        
-        self.start()
+        rebuildCmdAndRestart()
     }
-    
+
     deinit {
         self.stop()
+    }
+
+    private func rebuildCmdAndRestart() {
+        let mode: String
+        switch self.mode {
+        case .tcpAndUdp: mode = ""
+        case .route: mode = "-m route"
+        case .tcp: mode = "-m tcp"
+        case .udp: mode = "-m udp"
+        }
+        
+        let type: String
+        if self.type == .all {
+            type = ""
+        } else {
+            type = "-t \(self.type)"
+        }
+
+        let drawLess = self.drawLess ? " -c " : ""
+        let shell = "export STDBUF=\"U\" && nettop \(drawLess) \(mode) \(type) -k rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,interface,state,arch -d -L 0 -P -n -s 1"
+        print(shell)
+        cmd = ["-c", shell]
+        start()
     }
 
     func start() {

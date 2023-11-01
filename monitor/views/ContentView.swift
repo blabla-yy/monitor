@@ -9,15 +9,25 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var wifi: Bool
-    @State var wired: Bool
+    @State var detail = 0
     var body: some View {
-        VStack {
-            Toggle(isOn: <#T##Binding<Bool>#>, label: <#T##() -> Label#>)
-            RealTimeNetworkTrafficView()
-        }
+        NavigationSplitView(sidebar: {
+            List(selection: $detail) {
+                NavigationLink("Real-time", value: 0)
+                NavigationLink("Setting", value: 1)
+            }
+            
+        }, detail: {
+            if detail == 0 {
+                RealTimeNetworkTrafficView()
+            } else {
+                SettingView()
+            }
+        })
     }
 }
+
+
 
 struct RealTimeNetworkTrafficView: View {
     @EnvironmentObject var nettop: Nettop
@@ -45,6 +55,9 @@ struct RealTimeNetworkTrafficView: View {
             TableColumn("download", value: \.bytesIn) { item in
                 Text(item.bytesIn.speedFormatted)
             }
+        }
+        .onAppear {
+            self.refreshTable()
         }
         .searchable(text: $searchText)
         .onReceive(NotificationCenter.default.publisher(for: .networkInfoChangeNotification), perform: { _ in

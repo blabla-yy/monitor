@@ -93,7 +93,7 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
         menu.addItem(item)
         menu.addItem(NSMenuItem.separator())
 
-        let mainWindow = NSMenuItem(title: "open main window".localized, action: #selector(openMainWindow), keyEquivalent: "n")
+        let mainWindow = NSMenuItem(title: "Open main window".localized, action: #selector(openMainWindow), keyEquivalent: "n")
         mainWindow.keyEquivalentModifierMask = [.command]
         mainWindow.target = self
         mainWindow.isEnabled = true

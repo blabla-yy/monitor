@@ -2,3 +2,19 @@
 "upload" = "Upload";
 "download" = "Download";
 "quit" = "Quit";
+
+"Open main window" = "Open main window";
+
+"tcpAndUdp" = "TCP and UDP";
+"tcp" = "TCP";
+"udp" = "UDP";
+"route" = "Routing Table";
+
+"wifi" = "WiFi";
+"wired" = "Wired";
+"loopback" = "Loopback";
+"awdl" = "Apple Wireless Direct Link";
+//"expensive" = "Expensive";
+"external" = "Non-Loopback";
+
+"all" = "All";
