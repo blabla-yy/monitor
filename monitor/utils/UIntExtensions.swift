@@ -13,25 +13,26 @@ extension UInt {
         self.formatSpeed()
     }
     
-    func formatSpeed() -> String {
+    func formatSpeed(keepDecimals: Bool = true) -> String {
         if self == 0 {
             return "0 B/s"
         }
         if self / 1024 < 1 {
             return "\(self) B/s"
         }
+        let format = keepDecimals ? "%.2f" : "%.0f"
 
         var value = Double(self) / 1024.0
         if value / 1024 < 1 {
-            return String(format: "%.2f KB/s", value)
+            return String(format: "\(format) KB/s", value)
         }
 
         value = Double(value) / 1024.0
         if value / 1024 < 1 {
-            return String(format: "%.2f MB/s", value)
+            return String(format: "\(format) MB/s", value)
         }
 
         value = Double(value) / 1024
-        return String(format: "%.2f GB/s", value)
+        return String(format: "\(format) GB/s", value)
     }
 }

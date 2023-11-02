@@ -29,6 +29,7 @@ struct AppNetworks: Identifiable {
 
 extension Notification.Name {
     static let networkInfoChangeNotification = Notification.Name("networkInfoChangeNotification")
+    static let statusBarChangeNotification = Notification.Name("statusBarChangeNotification")
 }
 
 enum NettopType: String, Identifiable, CustomStringConvertible, CaseIterable {
@@ -87,6 +88,13 @@ class Nettop: ObservableObject {
         }
     }
 
+    @Published var keepDecimals: Bool {
+        didSet {
+            UserDefaults.standard.setValue(keepDecimals, forKey: "keepDecimals")
+            NotificationCenter.default.post(name: .statusBarChangeNotification, object: nil)
+        }
+    }
+
     @Published var type: NettopType {
         didSet {
             rebuildCmdAndRestart()
@@ -110,18 +118,19 @@ class Nettop: ObservableObject {
 
     init() {
         self.drawLess = (UserDefaults.standard.object(forKey: "drawLess") as? Bool) ?? true
+        self.keepDecimals = (UserDefaults.standard.object(forKey: "keepDecimals") as? Bool) ?? false
         self.type = NettopType(rawValue: (UserDefaults.standard.object(forKey: "type") as? String) ?? "") ?? .external
         self.mode = NettopMode(rawValue: (UserDefaults.standard.object(forKey: "mode") as? String) ?? "") ?? .tcpAndUdp
         cmd = []
         process = nil
-        rebuildCmdAndRestart()
+//        rebuildCmdAndRestart()
     }
 
     deinit {
         self.stop()
     }
 
-    private func rebuildCmdAndRestart() {
+    func rebuildCmdAndRestart() {
         let mode: String
         switch self.mode {
         case .tcpAndUdp: mode = ""

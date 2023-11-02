@@ -18,3 +18,7 @@
 "external" = "Non-Loopback";
 
 "all" = "All";
+
+"Basic" = "Basic";
+"Status Bar" = "Status Bar";
+"Keep Decimals" = "Keep Decimals";

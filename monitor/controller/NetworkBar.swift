@@ -18,22 +18,30 @@ extension NSUserInterfaceItemIdentifier {
 
 class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     // 网络信息
-//    var networkTraffic = Nettop()
     let networkTraffic: Nettop
 
     init(networkTraffic: Nettop) {
         self.networkTraffic = networkTraffic
-//        self.openWindow = openWindow
+    }
+
+    private var sample: String {
+        if networkTraffic.keepDecimals {
+            return "999.99 MB/s ↑"
+        } else {
+            return "999 MB/s ↑"
+        }
     }
 
     // 文本最大宽度
-    private lazy var maxStatusBarWidth: CGFloat = NSAttributedString(string: "999.99 MB/s ↑", attributes: textAttributes).size().width + 2
-    private let maxWidth = "999.99 MB/s ↑".count
-    private lazy var maxSingleCellWidth: CGFloat = {
-        NSTextField(labelWithString: "999.99 MB/s ↑").intrinsicContentSize.width
-    }()
+    private var maxStatusBarWidth: CGFloat {
+        NSAttributedString(string: sample, attributes: textAttributes).size().width + 1
+    }
 
-    private lazy var networkMenuItem: NSStatusItem = {
+    private var maxSingleCellWidth: CGFloat {
+        return NSTextField(labelWithString: sample).intrinsicContentSize.width
+    }
+
+    lazy var networkMenuItem: NSStatusItem = {
         NSStatusBar.system.statusItem(withLength: maxStatusBarWidth)
     }()
 
@@ -110,6 +118,7 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
         networkMenuItem.menu = menu
         if let button = networkMenuItem.button {
             button.attributedTitle = NSAttributedString(string: "0 ↑\n0 ↓", attributes: textAttributes)
+//            button.attributedTitle = NSAttributedString(string: "\(sample)\n\(sample)", attributes: textAttributes)
             button.imagePosition = .imageLeft
             let cell = button.cell as? NSButtonCell
             cell?.alignment = .right
@@ -231,21 +240,10 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
 
     @objc func refresh() {
         if let button = networkMenuItem.button {
-            var upload = networkTraffic.totalBytesOut.speedFormatted
-            if upload.count < maxWidth {
-                upload = String(repeating: String(" "), count: max(0, maxWidth - upload.count)) + upload
-            }
-            var download = networkTraffic.totalBytesIn.speedFormatted
-            if download.count < maxWidth {
-                download = String(repeating: String(" "), count: max(0, maxWidth - download.count)) + download
-            }
+            let upload = networkTraffic.totalBytesOut.formatSpeed(keepDecimals: networkTraffic.keepDecimals)
+            let download = networkTraffic.totalBytesIn.formatSpeed(keepDecimals: networkTraffic.keepDecimals)
             button.attributedTitle = NSAttributedString(string: "\(upload) ↑\n\(download) ↓", attributes: textAttributes)
             tableView.reloadData()
         }
-    }
-
-    // 停止，清除已缓存的信息
-    func stop() {
-        networkTraffic.stop()
     }
 }
