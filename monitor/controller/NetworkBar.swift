@@ -8,6 +8,7 @@
 
 import Cocoa
 import Foundation
+import SwiftUI
 
 // MARK: - NetworkBar
 
@@ -16,20 +17,31 @@ extension NSUserInterfaceItemIdentifier {
 }
 
 class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
-    var sort: Bool?
-
     // 网络信息
-    var bandwidth = NettopBandwidth()
-//    var bandwidth = PnetBandwidth.instance
+    let networkTraffic: Nettop
+
+    init(networkTraffic: Nettop) {
+        self.networkTraffic = networkTraffic
+    }
+
+    private var sample: String {
+        if networkTraffic.keepDecimals {
+            return "999.99 MB/s ↑"
+        } else {
+            return "999 MB/s ↑"
+        }
+    }
 
     // 文本最大宽度
-    private lazy var maxStatusBarWidth: CGFloat = NSAttributedString(string: " 1024.12 KB/s ↑", attributes: textAttributes).size().width + 5
-    private let maxWidth = "1024.12 KB/s".count
-    private lazy var maxSingleCellWidth: CGFloat = {
-        NSTextField(labelWithString: " 1024.12 KB/s ").intrinsicContentSize.width
-    }()
+    private var maxStatusBarWidth: CGFloat {
+        NSAttributedString(string: sample, attributes: textAttributes).size().width + 1
+    }
 
-    private lazy var networkMenuItem: NSStatusItem = {
+    private var maxSingleCellWidth: CGFloat {
+        return NSTextField(labelWithString: sample).intrinsicContentSize.width
+    }
+
+    lazy var networkMenuItem: NSStatusItem = {
         NSStatusBar.system.statusItem(withLength: maxStatusBarWidth)
     }()
 
@@ -72,32 +84,19 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     // 流量文本格式
     private lazy var textAttributes: [NSAttributedString.Key: Any] = {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.maximumLineHeight = 10
-        paragraphStyle.paragraphSpacing = -7
+//        paragraphStyle.maximumLineHeight = 10
+        let baseline = -(NSFont.systemFont(ofSize: 9).capHeight) / 2
+        paragraphStyle.paragraphSpacing = baseline
+        paragraphStyle.lineSpacing = 0
         paragraphStyle.alignment = .right
         return [
             NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9),
             NSAttributedString.Key.paragraphStyle: paragraphStyle,
+            .baselineOffset: baseline,
         ] as [NSAttributedString.Key: Any]
     }()
 
-    private var experiment = false
-
-    private var experimentTitle: String {
-        if experiment {
-            return "netop".localized
-        } else {
-            return "experiment".localized
-        }
-    }
-
-    @objc private func switchExperimentNettop(_ sender: Any) {
-        experiment.toggle()
-    }
-
-    override init() {
-        super.init()
-
+    func setupMenu() {
         let menu = NSMenu()
         let item = NSMenuItem()
         item.isEnabled = true
@@ -105,10 +104,11 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
         menu.addItem(item)
         menu.addItem(NSMenuItem.separator())
 
-//        let switchExperiment = NSMenuItem(title: experimentTitle, action: #selector(switchExperimentNettop(_:)), keyEquivalent: "")
-//        switchExperiment.isEnabled = true
-//        menu.addItem(switchExperiment)
-//        menu.addItem(NSMenuItem.separator())
+        let mainWindow = NSMenuItem(title: "Open main window".localized, action: #selector(openMainWindow), keyEquivalent: "n")
+        mainWindow.keyEquivalentModifierMask = [.command]
+        mainWindow.target = self
+        mainWindow.isEnabled = true
+        menu.addItem(mainWindow)
 
         let quitItem = NSMenuItem(title: "quit".localized, action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         quitItem.keyEquivalentModifierMask = [.command]
@@ -118,15 +118,47 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
         networkMenuItem.menu = menu
         if let button = networkMenuItem.button {
             button.attributedTitle = NSAttributedString(string: "0 ↑\n0 ↓", attributes: textAttributes)
+//            button.attributedTitle = NSAttributedString(string: "\(sample)\n\(sample)", attributes: textAttributes)
             button.imagePosition = .imageLeft
+            let cell = button.cell as? NSButtonCell
+            cell?.alignment = .right
             tableView.reloadData()
         }
 
-        start()
+        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: .networkInfoChangeNotification, object: nil)
+    }
+
+    // trick
+    var openWindow: OpenWindowAction?
+    @objc func openMainWindow() {
+        DispatchQueue.main.async {
+            if let mainWindow = NSApplication.shared.mainWindow {
+                mainWindow.orderFrontRegardless()
+                mainWindow.makeKey()
+                return
+            }
+            let exist = NSApplication.shared.windows.first { window in
+                window.canBecomeMain
+            }
+            if let exist = exist {
+                exist.makeMain()
+                exist.orderFrontRegardless()
+                exist.makeKey()
+                return
+            }
+
+            self.openWindow?.callAsFunction(id: Main.id)
+            let window = NSApplication.shared.windows.first { window in
+                window.canBecomeMain
+            }
+            window?.makeMain()
+            window?.orderFrontRegardless()
+            window?.makeKey()
+        }
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return (bandwidth.appBandwidthInfo.count > 10 ? 10 : bandwidth.appBandwidthInfo.count) + 1
+        return (networkTraffic.appNetworkTrafficInfo.count > 10 ? 10 : networkTraffic.appNetworkTrafficInfo.count) + 1
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -147,7 +179,7 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
             }
         } else {
             // 第一列是图标，其余为信息
-            let array = bandwidth.appBandwidthInfo
+            let array = networkTraffic.appNetworkTrafficInfo
             if array.count > row - 1 {
                 let info = array[row - 1]
                 switch tableColumn {
@@ -206,36 +238,12 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
         return cellView
     }
 
-    // 更新status bar
-    private func start() {
-        bandwidth.start {
-            self.refresh()
+    @objc func refresh() {
+        if let button = networkMenuItem.button {
+            let upload = networkTraffic.totalBytesOut.formatSpeed(keepDecimals: networkTraffic.keepDecimals)
+            let download = networkTraffic.totalBytesIn.formatSpeed(keepDecimals: networkTraffic.keepDecimals)
+            button.attributedTitle = NSAttributedString(string: "\(upload) ↑\n\(download) ↓", attributes: textAttributes)
+            tableView.reloadData()
         }
-    }
-
-    func refresh() {
-        DispatchQueue.main.async {
-            if let button = self.networkMenuItem.button {
-                var upload = self.bandwidth.totalBytesOut.speedFormatted
-                if upload.count < self.maxWidth {
-                    upload = String(repeating: String(" "), count: max(0, self.maxWidth - upload.count)) + upload
-                }
-                var download = self.bandwidth.totalBytesIn.speedFormatted
-                if download.count < self.maxWidth {
-                    download = String(repeating: String(" "), count: max(0, self.maxWidth - download.count)) + download
-                }
-                button.attributedTitle = NSAttributedString(string: "\(upload) ↑\n\(download) ↓", attributes: self.textAttributes)
-                button.imagePosition = .imageLeft
-                let cell = button.cell as? NSButtonCell
-                cell?.alignment = .right
-                //                button.alignment = .natural
-                self.tableView.reloadData()
-            }
-        }
-    }
-
-    // 停止，清除已缓存的信息
-    func stop() {
-        bandwidth.stop()
     }
 }

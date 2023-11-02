@@ -4,3 +4,30 @@
 "quit" = "退出";
 "netop" = "使用Netop";
 "experiment" = "使用试验功能";
+
+"Open main window" = "打开主窗口";
+
+"tcpAndUdp" = "TCP和UDP";
+"tcp" = "TCP";
+"udp" = "UDP";
+"route" = "路由表";
+
+"wifi" = "WiFi";
+"wired" = "Wired";
+"loopback" = "回环接口";
+"awdl" = "苹果无线直连接口";
+//"expensive" = "被标记为Expensive的接口";
+"external" = "非回环接口";
+"all" = "所有";
+
+
+"Reduce energy consumption" = "降低功耗";
+"Type" = "类型";
+"Mode" = "模式";
+
+"Setting" = "设置";
+"Real-time" = "实时监控";
+
+"Basic" = "基础";
+"Status Bar" = "状态栏";
+"Keep Decimals" = "保留小数";

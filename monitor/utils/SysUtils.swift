@@ -5,7 +5,7 @@
 //  Created by wyy on 2019/10/14.
 //  Copyright © 2019 yahaha. All rights reserved.
 //
-
+import OSLog
 import Foundation
 
 enum SysctlError: Error {
@@ -13,6 +13,10 @@ enum SysctlError: Error {
     case malformedUTF8
     case invalidSize
     case posixError(POSIXErrorCode)
+}
+
+struct Log {
+    static let shared = Logger.init()
 }
 
 struct SysUtils {
@@ -26,13 +30,13 @@ struct SysUtils {
                 let preFlightResult = Darwin.sysctl(UnsafeMutablePointer<Int32>(mutating: keysPointer.baseAddress), UInt32(keys.count), &kinfo, &size, nil, 0)
                 if preFlightResult != 0 {
                     throw POSIXErrorCode(rawValue: errno).map {
-                        print($0.rawValue)
+                        Log.shared.error("POSIXErrorCode \($0.rawValue)")
                         return SysctlError.posixError($0)
                         } ?? SysctlError.unknown
                 }
                 return kinfo.kp_eproc.e_ppid
             }
-        } catch let e { print("ppid error \(e)") }
+        } catch let e { Log.shared.error("ppid error \(e.localizedDescription)") }
         return -1
     }
     

@@ -1,15 +1,19 @@
-# MacOS 流量监控
+# MacOS NetworkMonitor
 
 ![image](https://raw.githubusercontent.com/QaQAdrian/monitor/master/demo.png)
 
-## 介绍
-Mac状态栏应用，可以实时显示网速
+## Feature
+- Real-time network traffic statistics
+- Configurable tcp, udp and other statistical rules
 
-## 系统要求
-macOS 10.15以上
 
-## 安装运行
-首次执行后，需要在 设置 -> 隐私与安全性 -> 提示"BandwidthMonitor"未知开发者，点击仍要打开。（项目没有涉及用户隐私或修改系统信息的部分）
+## System Requirements
+macOS 13 or later  
+(v1.2.0 macOS 10.15 or later)
+
+## Installation
+If opening fails, you can try this.  
+System Settings -> Privacy and Security -> "NetworkMonitor" cannot be opened because it is from an unidentified developer click "Open Anyway".
 
 ## License
 See [LICENSE.md](LICENSE) for licensing information.
