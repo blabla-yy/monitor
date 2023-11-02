@@ -27,10 +27,10 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     }
 
     // 文本最大宽度
-    private lazy var maxStatusBarWidth: CGFloat = NSAttributedString(string: " 1024.12 KB/s ↑", attributes: textAttributes).size().width + 5
-    private let maxWidth = "1024.12 KB/s".count
+    private lazy var maxStatusBarWidth: CGFloat = NSAttributedString(string: "999.99 MB/s ↑", attributes: textAttributes).size().width + 2
+    private let maxWidth = "999.99 MB/s ↑".count
     private lazy var maxSingleCellWidth: CGFloat = {
-        NSTextField(labelWithString: " 1024.12 KB/s ").intrinsicContentSize.width
+        NSTextField(labelWithString: "999.99 MB/s ↑").intrinsicContentSize.width
     }()
 
     private lazy var networkMenuItem: NSStatusItem = {
@@ -76,12 +76,15 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     // 流量文本格式
     private lazy var textAttributes: [NSAttributedString.Key: Any] = {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.maximumLineHeight = 10
-        paragraphStyle.paragraphSpacing = -7
+//        paragraphStyle.maximumLineHeight = 10
+        let baseline = -(NSFont.systemFont(ofSize: 9).capHeight) / 2
+        paragraphStyle.paragraphSpacing = baseline
+        paragraphStyle.lineSpacing = 0
         paragraphStyle.alignment = .right
         return [
             NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9),
             NSAttributedString.Key.paragraphStyle: paragraphStyle,
+            .baselineOffset: baseline,
         ] as [NSAttributedString.Key: Any]
     }()
 
@@ -108,6 +111,8 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
         if let button = networkMenuItem.button {
             button.attributedTitle = NSAttributedString(string: "0 ↑\n0 ↓", attributes: textAttributes)
             button.imagePosition = .imageLeft
+            let cell = button.cell as? NSButtonCell
+            cell?.alignment = .right
             tableView.reloadData()
         }
 
@@ -235,10 +240,6 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
                 download = String(repeating: String(" "), count: max(0, maxWidth - download.count)) + download
             }
             button.attributedTitle = NSAttributedString(string: "\(upload) ↑\n\(download) ↓", attributes: textAttributes)
-            button.imagePosition = .imageLeft
-            let cell = button.cell as? NSButtonCell
-            cell?.alignment = .right
-            //                button.alignment = .natural
             tableView.reloadData()
         }
     }
