@@ -1,6 +1,7 @@
 # MacOS NetworkMonitor
 
-![image](https://raw.githubusercontent.com/QaQAdrian/monitor/master/demo.png)
+![image](https://raw.githubusercontent.com/blabla-yy/monitor/master/demo.png)
+![image](https://raw.githubusercontent.com/blabla-yy/monitor/master/screenshot.png)
 
 ## Feature
 - Real-time network traffic statistics
