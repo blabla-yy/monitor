@@ -38,7 +38,7 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     }
 
     private var maxSingleCellWidth: CGFloat {
-        return NSTextField(labelWithString: sample).intrinsicContentSize.width
+        return NSTextField(labelWithString: "999.99 MB/s ↑").intrinsicContentSize.width
     }
 
     lazy var networkMenuItem: NSStatusItem = {
