@@ -208,6 +208,7 @@ class Nettop: ObservableObject {
             self.totalBytesIn = totalInput
             self.totalBytesOut = totalOutput
             self.appNetworkTrafficInfo = map.values.sorted(using: self.sortOrder)
+            WidgetSharedData.instance.writeData(upload: totalOutput, download: totalInput)
             NotificationCenter.default.post(name: .networkInfoChangeNotification, object: nil)
         }
     }
