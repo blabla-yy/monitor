@@ -13,8 +13,10 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView(sidebar: {
             List(selection: $detail) {
-                NavigationLink("Real-time", value: 0)
-                NavigationLink("Setting", value: 1)
+                Section {
+                    NavigationLink("Network", value: 0)
+                    NavigationLink("Settings", value: 1)
+                }
             }
 
         }, detail: {

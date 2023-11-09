@@ -110,7 +110,11 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
         mainWindow.isEnabled = true
         menu.addItem(mainWindow)
 
-        let quitItem = NSMenuItem(title: "quit".localized, action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        let quitItem = NSMenuItem(title: "quit".localized, action: #selector(AppDelegate.exit), keyEquivalent: "q")
+        if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
+            quitItem.target = appDelegate
+        }
+        
         quitItem.keyEquivalentModifierMask = [.command]
         quitItem.isEnabled = true
         menu.addItem(quitItem)

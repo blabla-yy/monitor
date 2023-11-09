@@ -10,6 +10,7 @@ import SwiftUI
 
 struct SettingView: View {
     @EnvironmentObject var nettop: Nettop
+
     var body: some View {
         Form {
             Section {
@@ -43,6 +44,11 @@ struct SettingView: View {
             }
             
             Section {
+                Toggle("Switch", isOn: .init(get: {
+                    self.nettop.statusBar
+                }, set: {
+                    self.nettop.statusBar = $0
+                }))
                 Toggle("Keep Decimals", isOn: .init(get: {
                     self.nettop.keepDecimals
                 }, set: {
@@ -50,6 +56,21 @@ struct SettingView: View {
                 }))
             } header: {
                 Text("Status Bar")
+            }
+            
+            Section {
+                if self.nettop.started {
+                    Button("Stop Recording") {
+                        AppDelegate.instance.stop()
+                    }
+                } else {
+                    Button("Start Recording") {
+                        AppDelegate.instance.start()
+                    }
+                }
+                Button("Exit") {
+                    AppDelegate.instance.exit()
+                }
             }
         }
         .formStyle(.grouped)

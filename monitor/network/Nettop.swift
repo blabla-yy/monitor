@@ -29,6 +29,8 @@ struct AppNetworks: Identifiable {
 extension Notification.Name {
     static let networkInfoChangeNotification = Notification.Name("networkInfoChangeNotification")
     static let statusBarChangeNotification = Notification.Name("statusBarChangeNotification")
+
+    static let statusBarSwitchNotification = Notification.Name("statusBarSwitchNotification")
 }
 
 enum NettopType: String, Identifiable, CustomStringConvertible, CaseIterable {
@@ -37,9 +39,9 @@ enum NettopType: String, Identifiable, CustomStringConvertible, CaseIterable {
     }
 
     var localized: String {
-        NSLocalizedString(self.description, comment: "")
+        NSLocalizedString(description, comment: "")
     }
-    
+
     var id: Self {
         return self
     }
@@ -58,9 +60,9 @@ enum NettopMode: String, Identifiable, CustomStringConvertible, CaseIterable {
     var id: Self {
         return self
     }
-    
+
     var localized: String {
-        NSLocalizedString(self.description, comment: "")
+        NSLocalizedString(description, comment: "")
     }
 
     var description: String {
@@ -94,6 +96,14 @@ class Nettop: ObservableObject {
         }
     }
 
+    // 是否开启状态栏
+    @Published var statusBar: Bool {
+        didSet {
+            UserDefaults.standard.setValue(statusBar, forKey: "statusBar")
+            NotificationCenter.default.post(name: .statusBarSwitchNotification, object: nil)
+        }
+    }
+
     @Published var type: NettopType {
         didSet {
             rebuildCmdAndRestart()
@@ -108,6 +118,14 @@ class Nettop: ObservableObject {
         }
     }
 
+    @Published var networkHisotries: [NetworkData] = []
+    
+    @Published var started = false
+
+    // 是否已经弃掉第一部分数据
+    var droppedCount: Int = 0
+    var networkHistoryMaxValue: UInt = 0
+
     // 进程相关
     var cmd: [String]
     var process: ProcessHelper?
@@ -116,13 +134,13 @@ class Nettop: ObservableObject {
     var buffer: [String] = []
 
     init() {
-        self.drawLess = (UserDefaults.standard.object(forKey: "drawLess") as? Bool) ?? true
-        self.keepDecimals = (UserDefaults.standard.object(forKey: "keepDecimals") as? Bool) ?? false
-        self.type = NettopType(rawValue: (UserDefaults.standard.object(forKey: "type") as? String) ?? "") ?? .external
-        self.mode = NettopMode(rawValue: (UserDefaults.standard.object(forKey: "mode") as? String) ?? "") ?? .tcpAndUdp
+        drawLess = (UserDefaults.standard.object(forKey: "drawLess") as? Bool) ?? true
+        keepDecimals = (UserDefaults.standard.object(forKey: "keepDecimals") as? Bool) ?? false
+        statusBar = (UserDefaults.standard.object(forKey: "statusBar") as? Bool) ?? true
+        type = NettopType(rawValue: (UserDefaults.standard.object(forKey: "type") as? String) ?? "") ?? .external
+        mode = NettopMode(rawValue: (UserDefaults.standard.object(forKey: "mode") as? String) ?? "") ?? .tcpAndUdp
         cmd = []
         process = nil
-//        rebuildCmdAndRestart()
     }
 
     deinit {
@@ -137,7 +155,7 @@ class Nettop: ObservableObject {
         case .tcp: mode = "-m tcp"
         case .udp: mode = "-m udp"
         }
-        
+
         let type: String
         if self.type == .all {
             type = ""
@@ -153,39 +171,66 @@ class Nettop: ObservableObject {
     }
 
     func start() {
+        stop()
         DispatchQueue.global(qos: .userInteractive).async {
-            self.process?.terminate()
             self.process = ProcessHelper.start(arguments: self.cmd, stdout: self.parseStdout)
         }
     }
 
     func stop() {
+        started = false
         process?.terminate()
+        process = nil
+        droppedCount = 0
+        networkHistoryMaxValue = 0
         appNetworkTrafficInfo.removeAll(keepingCapacity: true)
+        WidgetSharedData.instance.reset()
         buffer.removeAll(keepingCapacity: true)
+        
+        totalBytesIn = 0
+        totalBytesOut = 0
+        buffer.removeAll(keepingCapacity: true)
+        NotificationCenter.default.post(name: .networkInfoChangeNotification, object: nil)
     }
 
     func parseStdout(data: Data) {
         let stdout = String(data: data, encoding: .utf8) ?? ""
-        stdout
-            .components(separatedBy: "\n")
-            .forEach { item in
+        let lines = stdout.components(separatedBy: "\n")
+        DispatchQueue.main.async {
+            for item in lines {
                 if item.isEmpty {
-                    return
+                    continue
                 }
                 if item == "time,,bytes_in,bytes_out," {
-                    refreshData(strings: self.buffer)
+                    self.refreshData(strings: self.buffer)
                     self.buffer.removeAll(keepingCapacity: true)
                 } else {
-                    if buffer.count < 128 {
-                        buffer.append(item)
+                    if self.buffer.count < 128 {
+                        self.buffer.append(item)
                     }
                 }
             }
+        }
     }
 
     private func refreshData(strings: [String]) {
-//        appNetworkTrafficInfo.removeAll(keepingCapacity: true)
+        self.started = true
+        if droppedCount < 2 {
+            droppedCount += 1
+            buffer.removeAll(keepingCapacity: true)
+
+            var histories: [NetworkData] = []
+            let now = Date.now
+            for i in 0 ..< 60 {
+                if let date = Calendar.current.date(byAdding: .second, value: -i, to: now) {
+                    histories.append(.init(upload: 0, download: 0, timestamp: date))
+                }
+            }
+            networkHisotries = histories.reversed()
+
+            WidgetSharedData.instance.writeData(date: now, networkHistories: networkHisotries, maxValue: 0)
+            return
+        }
         var map: [Int32: AppNetworks] = [:]
 
         var totalInput: UInt = 0
@@ -204,12 +249,27 @@ class Nettop: ObservableObject {
                 totalOutput += item.bytesOut
             }
         }
-        DispatchQueue.main.async {
-            self.totalBytesIn = totalInput
-            self.totalBytesOut = totalOutput
-            self.appNetworkTrafficInfo = map.values.sorted(using: self.sortOrder)
-            NotificationCenter.default.post(name: .networkInfoChangeNotification, object: nil)
+
+        let now = Date.now
+        let network = NetworkData(upload: totalBytesIn, download: totalBytesOut, timestamp: now)
+        networkHisotries.append(network)
+        networkHistoryMaxValue = max(totalBytesIn, totalBytesOut, networkHistoryMaxValue)
+        while networkHisotries.count > 60 {
+            let removed = networkHisotries.removeFirst()
+            if removed.upload == networkHistoryMaxValue || removed.download == networkHistoryMaxValue {
+                var maxValue:UInt = 0
+                networkHisotries.forEach { item in
+                    maxValue = max(item.upload, item.download, maxValue)
+                }
+                networkHistoryMaxValue = maxValue
+            }
         }
+
+        totalBytesIn = totalInput
+        totalBytesOut = totalOutput
+        appNetworkTrafficInfo = map.values.sorted(using: sortOrder)
+        WidgetSharedData.instance.writeData(date: now, networkHistories: networkHisotries, maxValue: self.networkHistoryMaxValue)
+        NotificationCenter.default.post(name: .networkInfoChangeNotification, object: nil)
     }
 
     private static func addAppInfo(_ item: Networks, map: inout [Int32: AppNetworks]) {

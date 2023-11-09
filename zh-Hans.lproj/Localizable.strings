@@ -25,9 +25,18 @@
 "Type" = "类型";
 "Mode" = "模式";
 
-"Setting" = "设置";
+"Settings" = "设置";
 "Real-time" = "实时监控";
 
 "Basic" = "基础";
 "Status Bar" = "状态栏";
 "Keep Decimals" = "保留小数";
+
+"Switch" = "开关";
+
+"Stop Recording" = "停止记录";
+"Start Recording" = "开始记录";
+
+"Exit" = "退出";
+"Click to start" = "点击开始";
+"Network" = "网络";
