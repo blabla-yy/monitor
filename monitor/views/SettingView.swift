@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SettingView: View {
     @EnvironmentObject var nettop: Nettop
-    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     var body: some View {
         Form {
             Section {
@@ -59,8 +59,17 @@ struct SettingView: View {
             }
             
             Section {
+                if self.nettop.started {
+                    Button("Stop Recording") {
+                        AppDelegate.instance.stop()
+                    }
+                } else {
+                    Button("Start Recording") {
+                        AppDelegate.instance.start()
+                    }
+                }
                 Button("Exit") {
-                    appDelegate.exit()
+                    AppDelegate.instance.exit()
                 }
             }
         }

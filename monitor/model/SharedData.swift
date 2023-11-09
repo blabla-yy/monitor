@@ -41,12 +41,12 @@ class WidgetSharedData {
         }
     }
 
-    func writeData(date: Date, networkHistories: [NetworkData]) {
+    func writeData(date: Date, networkHistories: [NetworkData], maxValue: UInt) {
         do {
             if !FileManager.default.fileExists(atPath: dataFileURL.path) {
                 FileManager.default.createFile(atPath: dataFileURL.path, contents: nil)
             } else {
-                let data = try JSONEncoder().encode(SharedData(timestamp: date, networkHistory: networkHistories))
+                let data = try JSONEncoder().encode(SharedData(timestamp: date, maxNetworkValue: maxValue, networkHistory: networkHistories))
                 try data.write(to: dataFileURL)
             }
             WidgetCenter.shared.reloadAllTimelines()
@@ -71,7 +71,17 @@ class WidgetSharedData {
 
 struct SharedData: Codable {
     let timestamp: Date
+    let maxNetworkValue: UInt
     let networkHistory: [NetworkData]
+    
+    var networkUnit: String {
+        if maxNetworkValue > 1024 * 1024 {
+            return "MB"
+        } else if maxNetworkValue > 1024 {
+            return "KB"
+        }
+        return "B"
+    }
 }
 
 struct NetworkData: Codable, Identifiable {
@@ -79,12 +89,22 @@ struct NetworkData: Codable, Identifiable {
     let download: UInt
     let timestamp: Date
     
-    var uploadKB: UInt {
-        upload / 1024
+    func adaptUploadValue(maxNetworkValue: UInt) -> UInt {
+        if maxNetworkValue > 1024 * 1024 {
+            return upload / 1024 / 1024
+        } else if maxNetworkValue > 1024 {
+            return upload / 1024
+        }
+        return upload
     }
     
-    var downloadKB: UInt {
-        download / 1024
+    func adaptDownloadValue(maxNetworkValue: UInt) -> UInt {
+        if maxNetworkValue > 1024 * 1024 {
+            return download / 1024 / 1024
+        } else if maxNetworkValue > 1024 {
+            return download / 1024
+        }
+        return download
     }
     
     var id: Date {

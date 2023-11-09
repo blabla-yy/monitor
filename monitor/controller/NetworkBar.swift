@@ -131,10 +131,6 @@ class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
 
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: .networkInfoChangeNotification, object: nil)
     }
-    
-    @objc func exit() {
-        
-    }
 
     // trick
     var openWindow: OpenWindowAction?

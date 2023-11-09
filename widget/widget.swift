@@ -21,8 +21,7 @@ struct Provider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
-        var entries: [SimpleEntry] = [.init(date: .now.addingTimeInterval(1), data: WidgetSharedData.instance.readData())]
-        print(entries.first!)
+        let entries: [SimpleEntry] = [.init(date: .now.addingTimeInterval(1), data: WidgetSharedData.instance.readData())]
         let timeline = Timeline(entries: entries, policy: .atEnd)
         completion(timeline)
     }
@@ -43,7 +42,7 @@ struct widgetEntryView: View {
     let downloadForegroud = Color.green
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 16) {
             if entry.data == nil {
                 Text("开始监控")
             } else {
@@ -72,20 +71,21 @@ struct widgetEntryView: View {
                 Chart(history) { data in
                     LineMark(
                         x: .value("Time", data.timestamp),
-                        y: .value("KB", data.uploadKB),
+                        y: .value("Value", data.adaptUploadValue(maxNetworkValue: entry.data?.maxNetworkValue ?? 0)),
                         series: .value("Upload", "Upload")
                     )
                     .foregroundStyle(uploadForeground)
 
                     LineMark(
                         x: .value("Time", data.timestamp),
-                        y: .value("KB", data.downloadKB),
+                        y: .value("Value", data.adaptDownloadValue(maxNetworkValue: entry.data?.maxNetworkValue ?? 0)),
                         series: .value("Download", "Download")
                     )
                     .foregroundStyle(downloadForegroud)
                 }
                 .chartXAxis(.hidden)
-                .chartYAxis(.hidden)
+                .chartYAxisLabel(entry.data?.networkUnit ?? "B")
+//                .chartYAxis(.hidden)
                 .transition(.identity)
                 .contentTransition(.identity)
             }
@@ -96,7 +96,7 @@ struct widgetEntryView: View {
 }
 
 struct widget: Widget {
-    let kind: String = "network.widget"
+    let kind: String = "widget.network"
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
@@ -109,7 +109,8 @@ struct widget: Widget {
                     .background()
             }
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("Network Traffic Widget")
+        .description("")
+        .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
