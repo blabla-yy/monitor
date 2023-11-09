@@ -44,11 +44,11 @@ struct widgetEntryView: View {
     var body: some View {
         VStack(spacing: 16) {
             if entry.data == nil {
-                Text("开始监控")
+                Text("Click to start")
             } else {
                 VStack {
                     HStack {
-                        Text("实时流量")
+                        Text("Network".localized)
                             .font(.title3)
                             .bold()
                             .foregroundStyle(Color.accentColor)

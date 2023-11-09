@@ -14,7 +14,7 @@ struct ContentView: View {
         NavigationSplitView(sidebar: {
             List(selection: $detail) {
                 Section {
-                    NavigationLink("Real-time", value: 0)
+                    NavigationLink("Network", value: 0)
                     NavigationLink("Settings", value: 1)
                 }
             }

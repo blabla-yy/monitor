@@ -23,6 +23,7 @@
 		7593FB6B2AFB8F02006514EF /* UIntExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753FD0282A66B158004B9FF3 /* UIntExtensions.swift */; };
 		7593FB6C2AFB8F06006514EF /* SysUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755E5DEC23546BE10055946F /* SysUtils.swift */; };
 		7593FB6D2AFB8F09006514EF /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753054F0238E5B0000072D6E /* StringUtils.swift */; };
+		7593FB6F2AFCCA4B006514EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7579DCE22372CFCB0083D47D /* Localizable.strings */; };
 		75C65D9E2351AA2500A12690 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C65D9D2351AA2500A12690 /* AppDelegate.swift */; };
 		75C65DA22351AA2600A12690 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75C65DA12351AA2600A12690 /* Assets.xcassets */; };
 		75C65DA52351AA2600A12690 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75C65DA32351AA2600A12690 /* Main.storyboard */; };
@@ -386,6 +387,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				75E7981F2AFB3CBA0035B0E0 /* Assets.xcassets in Resources */,
+				7593FB6F2AFCCA4B006514EF /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -649,7 +651,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -664,7 +666,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.blabla.monitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -683,7 +685,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -698,7 +700,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.blabla.monitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -732,7 +734,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.blabla.monitor.widget2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blabla.monitor.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
@@ -768,7 +770,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.blabla.monitor.widget2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blabla.monitor.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;

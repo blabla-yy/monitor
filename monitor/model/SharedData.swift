@@ -13,7 +13,7 @@ class WidgetSharedData {
     static var instance = WidgetSharedData()
     var dirURL: URL
     var dataFileURL: URL
-    static let key = "com.blabla.monitor.widget2"
+    static let key = "com.blabla.monitor.widget"
     
     init() {
         let bundleIdentifier = Bundle.main.bundleIdentifier
