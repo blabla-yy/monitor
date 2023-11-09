@@ -9,11 +9,12 @@
 import Foundation
 import WidgetKit
 
-struct WidgetSharedData {
+class WidgetSharedData {
     static var instance = WidgetSharedData()
     var dirURL: URL
     var dataFileURL: URL
     static let key = "com.blabla.monitor.widget2"
+    
     init() {
         let bundleIdentifier = Bundle.main.bundleIdentifier
         print("bundleIdentifier: \(bundleIdentifier ?? "nil")")
@@ -26,7 +27,7 @@ struct WidgetSharedData {
         print("dir is readable \(FileManager.default.isReadableFile(atPath: dirURL.path))")
         print("dir is writable \(FileManager.default.isWritableFile(atPath: dirURL.path))")
 
-        dataFileURL = dirURL.appending(path: "data.txt")
+        dataFileURL = dirURL.appending(path: "data.json")
     }
 
     func reset() {
@@ -34,27 +35,23 @@ struct WidgetSharedData {
             if FileManager.default.fileExists(atPath: dataFileURL.path) {
                 try FileManager.default.removeItem(at: dataFileURL)
             }
+            WidgetCenter.shared.reloadAllTimelines()
         } catch {
-            Log.shared.error("error to delete file \(dataFileURL.path), error \(error.localizedDescription)")
+            Log.shared.error("error to delete file \(self.dataFileURL.path), error \(error.localizedDescription)")
         }
     }
 
-    func writeData(upload: UInt, download: UInt) {
-        let content =
-            """
-            \(upload)
-            \(download)
-            \(Date.now.timeIntervalSince1970)
-            """
+    func writeData(date: Date, networkHistories: [NetworkData]) {
         do {
             if !FileManager.default.fileExists(atPath: dataFileURL.path) {
                 FileManager.default.createFile(atPath: dataFileURL.path, contents: nil)
             } else {
-                try content.write(to: dataFileURL, atomically: true, encoding: .utf8)
+                let data = try JSONEncoder().encode(SharedData(timestamp: date, networkHistory: networkHistories))
+                try data.write(to: dataFileURL)
             }
             WidgetCenter.shared.reloadAllTimelines()
         } catch {
-            Log.shared.error("error to write file \(dataFileURL.path), error \(error.localizedDescription)")
+            Log.shared.error("error to write file \(self.dataFileURL.path), error \(error.localizedDescription)")
         }
     }
     
@@ -63,27 +60,34 @@ struct WidgetSharedData {
             return nil
         }
         do {
-            let str = try String.init(contentsOf: dataFileURL, encoding: .utf8)
-            let array = str.components(separatedBy: .newlines)
-            if array.isEmpty || array.count != 3 {
-                return nil
-            }
-            guard let up = UInt(array[0]),let down = UInt(array[1]), let double = Double(array[2]) else {
-                return nil
-            }
-            return SharedData(networkUpload: up, networkDownload: down, timestamp: TimeInterval(double))
+            let data = try Data(contentsOf: dataFileURL)
+            return try JSONDecoder().decode(SharedData.self, from: data)
         } catch {
-            Log.shared.error("error to write file \(dataFileURL.path), error \(error.localizedDescription)")
+            Log.shared.error("error to write file \(self.dataFileURL.path), error \(error.localizedDescription)")
             return nil
         }
     }
 }
 
 struct SharedData: Codable {
-    let networkUpload: UInt
-    let networkDownload: UInt
-    let timestamp: TimeInterval
+    let timestamp: Date
+    let networkHistory: [NetworkData]
+}
+
+struct NetworkData: Codable, Identifiable {
+    let upload: UInt
+    let download: UInt
+    let timestamp: Date
     
-//    let historyUpload: [UInt]
-//    let hisotryDownload: [UInt]
+    var uploadKB: UInt {
+        upload / 1024
+    }
+    
+    var downloadKB: UInt {
+        download / 1024
+    }
+    
+    var id: Date {
+        timestamp
+    }
 }

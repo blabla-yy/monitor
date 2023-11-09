@@ -6,20 +6,21 @@
 //  Copyright © 2023 yahaha. All rights reserved.
 //
 
-import WidgetKit
+import Charts
 import SwiftUI
+import WidgetKit
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: Date(), data: nil)
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
+    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
         let entry = SimpleEntry(date: Date(), data: nil)
         completion(entry)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         var entries: [SimpleEntry] = [.init(date: .now.addingTimeInterval(1), data: WidgetSharedData.instance.readData())]
         print(entries.first!)
         let timeline = Timeline(entries: entries, policy: .atEnd)
@@ -32,24 +33,65 @@ struct SimpleEntry: TimelineEntry {
     let data: SharedData?
 }
 
-struct widgetEntryView : View {
+struct widgetEntryView: View {
     var entry: Provider.Entry
+    var history: [NetworkData] {
+        entry.data?.networkHistory ?? []
+    }
+
+    let uploadForeground = Color.yellow
+    let downloadForegroud = Color.green
 
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             if entry.data == nil {
-                Text("打开应用")
+                Text("开始监控")
             } else {
-                Text("Upload:")
-                Text(entry.data?.networkUpload.speedFormatted ?? "")
-                    .animation(nil)
-                
-                Text("Download:")
-                Text(entry.data?.networkDownload.speedFormatted ?? "")
-                    .animation(nil)
+                VStack {
+                    HStack {
+                        Text("实时流量")
+                            .font(.title3)
+                            .bold()
+                            .foregroundStyle(Color.accentColor)
+                        Spacer()
+                    }
+                    HStack {
+                        Spacer()
+                        Group {
+                            Text(entry.data?.networkHistory.last?.upload.speedFormatted ?? "") + Text(" ↑").foregroundStyle(uploadForeground)
+                        }
+                    }
+                    HStack {
+                        Spacer()
+                        Group {
+                            Text(entry.data?.networkHistory.last?.download.speedFormatted ?? "") + Text(" ↓").foregroundStyle(downloadForegroud)
+                        }
+                    }
+                }
+
+                Chart(history) { data in
+                    LineMark(
+                        x: .value("Time", data.timestamp),
+                        y: .value("KB", data.uploadKB),
+                        series: .value("Upload", "Upload")
+                    )
+                    .foregroundStyle(uploadForeground)
+
+                    LineMark(
+                        x: .value("Time", data.timestamp),
+                        y: .value("KB", data.downloadKB),
+                        series: .value("Download", "Download")
+                    )
+                    .foregroundStyle(downloadForegroud)
+                }
+                .chartXAxis(.hidden)
+                .chartYAxis(.hidden)
+                .transition(.identity)
+                .contentTransition(.identity)
             }
-            
         }
+        .transition(.identity)
+        .contentTransition(.identity)
     }
 }
 

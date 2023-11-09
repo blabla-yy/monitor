@@ -14,7 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var nettop = Nettop()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        if networkBar == nil {
+        if networkBar == nil && nettop.statusBar {
             networkBar = NetworkBar(networkTraffic: nettop)
             networkBar?.setupMenu()
         }
@@ -26,9 +26,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         nettop.rebuildCmdAndRestart()
         NotificationCenter.default.addObserver(self, selector: #selector(resetStatusBar), name: .statusBarChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(switchStatusBar), name: .statusBarSwitchNotification, object: nil)
+    }
+
+    @objc func switchStatusBar() {
+        if let item = networkBar?.networkMenuItem {
+            NSStatusBar.system.removeStatusItem(item)
+        }
+        networkBar = nil
+        if nettop.statusBar {
+            networkBar = NetworkBar(networkTraffic: nettop)
+            networkBar?.setupMenu()
+        }
     }
 
     @objc func resetStatusBar() {
+        if !nettop.statusBar {
+            return
+        }
         if let item = networkBar?.networkMenuItem {
             NSStatusBar.system.removeStatusItem(item)
             networkBar = nil
@@ -36,15 +51,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         networkBar = NetworkBar(networkTraffic: nettop)
         networkBar?.setupMenu()
     }
-    
+
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         return true
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        networkBar?.networkTraffic.stop()
+        self.exit()
     }
-
-    func applicationWillBecomeActive(_ notification: Notification) {
+    
+    @objc func exit() {
+        Log.shared.info("exit.")
+        self.nettop.stop()
+        if let item = networkBar?.networkMenuItem {
+            NSStatusBar.system.removeStatusItem(item)
+            networkBar = nil
+        }
+        NSApplication.shared.terminate(nil)
+    }
+    
+    static func applicationExit() {
+        if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
+            appDelegate.exit()
+        }
     }
 }

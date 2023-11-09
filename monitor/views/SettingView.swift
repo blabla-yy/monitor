@@ -10,6 +10,7 @@ import SwiftUI
 
 struct SettingView: View {
     @EnvironmentObject var nettop: Nettop
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some View {
         Form {
             Section {
@@ -43,6 +44,11 @@ struct SettingView: View {
             }
             
             Section {
+                Toggle("Switch", isOn: .init(get: {
+                    self.nettop.statusBar
+                }, set: {
+                    self.nettop.statusBar = $0
+                }))
                 Toggle("Keep Decimals", isOn: .init(get: {
                     self.nettop.keepDecimals
                 }, set: {
@@ -50,6 +56,12 @@ struct SettingView: View {
                 }))
             } header: {
                 Text("Status Bar")
+            }
+            
+            Section {
+                Button("Exit") {
+                    appDelegate.exit()
+                }
             }
         }
         .formStyle(.grouped)
