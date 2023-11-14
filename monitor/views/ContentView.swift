@@ -30,7 +30,7 @@ struct ContentView: View {
 }
 
 struct RealTimeNetworkTrafficView: View {
-    @EnvironmentObject var nettop: Nettop
+    @EnvironmentObject var nettop: Network
     @State var searchText = ""
     @State var filtered: [AppNetworks] = []
     @State var sortOrder = [KeyPathComparator(\AppNetworks.bytesIn, order: .reverse)]
@@ -92,5 +92,5 @@ struct RealTimeNetworkTrafficView: View {
 
 #Preview {
     ContentView()
-        .environmentObject(Nettop())
+        .environmentObject(Network())
 }

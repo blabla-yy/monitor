@@ -18,9 +18,9 @@ extension NSUserInterfaceItemIdentifier {
 
 class NetworkBar: NSObject, NSTableViewDataSource, NSTableViewDelegate {
     // 网络信息
-    let networkTraffic: Nettop
+    let networkTraffic: Network
 
-    init(networkTraffic: Nettop) {
+    init(networkTraffic: Network) {
         self.networkTraffic = networkTraffic
     }
 

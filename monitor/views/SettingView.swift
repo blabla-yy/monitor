@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SettingView: View {
-    @EnvironmentObject var nettop: Nettop
+    @EnvironmentObject var nettop: Network
 
     var body: some View {
         Form {
@@ -79,5 +79,5 @@ struct SettingView: View {
 
 #Preview {
     SettingView()
-        .environmentObject(Nettop())
+        .environmentObject(Network())
 }

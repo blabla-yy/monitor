@@ -12,7 +12,7 @@ import WidgetKit
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     var networkBar: NetworkBar?
-    var nettop = Nettop()
+    var nettop = Network()
     static private(set) var instance: AppDelegate! = nil
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
@@ -49,7 +49,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             mainWindow?.makeMain()
         }
-        nettop.rebuildCmdAndRestart()
+        nettop.start()
         NotificationCenter.default.addObserver(self, selector: #selector(resetStatusBar), name: .statusBarChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(switchStatusBar), name: .statusBarSwitchNotification, object: nil)
     }

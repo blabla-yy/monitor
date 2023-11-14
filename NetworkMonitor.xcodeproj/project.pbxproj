@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		75139B9C25C2B7A300FBE6EF /* Nettop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75139B9B25C2B7A300FBE6EF /* Nettop.swift */; };
+		75139B9C25C2B7A300FBE6EF /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75139B9B25C2B7A300FBE6EF /* Network.swift */; };
 		753054F1238E5B0000072D6E /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753054F0238E5B0000072D6E /* StringUtils.swift */; };
 		753FCFC32A664315004B9FF3 /* NetworkMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753FCFC22A664315004B9FF3 /* NetworkMonitorTests.swift */; };
 		753FCFC92A6671BB004B9FF3 /* CmdUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C65DB42351AC3E00A12690 /* CmdUtils.swift */; };
@@ -80,7 +80,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		75139B9B25C2B7A300FBE6EF /* Nettop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nettop.swift; sourceTree = "<group>"; };
+		75139B9B25C2B7A300FBE6EF /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		753054F0238E5B0000072D6E /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
 		753054F5238E679500072D6E /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		753FCFC02A664315004B9FF3 /* NetworkMonitorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkMonitorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -214,7 +214,7 @@
 		75C65DB02351AA9400A12690 /* network */ = {
 			isa = PBXGroup;
 			children = (
-				75139B9B25C2B7A300FBE6EF /* Nettop.swift */,
+				75139B9B25C2B7A300FBE6EF /* Network.swift */,
 			);
 			path = network;
 			sourceTree = "<group>";
@@ -409,7 +409,7 @@
 			files = (
 				75E7980F2AFB3C9F0035B0E0 /* SharedData.swift in Sources */,
 				753054F1238E5B0000072D6E /* StringUtils.swift in Sources */,
-				75139B9C25C2B7A300FBE6EF /* Nettop.swift in Sources */,
+				75139B9C25C2B7A300FBE6EF /* Network.swift in Sources */,
 				75C65D9E2351AA2500A12690 /* AppDelegate.swift in Sources */,
 				757792572AF1EBF000567B4A /* App.swift in Sources */,
 				756662512355779600774160 /* NetworkBar.swift in Sources */,
