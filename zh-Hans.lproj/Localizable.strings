@@ -40,3 +40,7 @@
 "Exit" = "退出";
 "Click to start" = "点击开始";
 "Network" = "网络";
+
+"Memory" = "内存";
+"User" = "用户";
+"System" = "系统";

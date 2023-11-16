@@ -20,7 +20,7 @@ struct Provider: TimelineProvider {
         completion(entry)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
         let entries: [SimpleEntry] = [.init(date: .now.addingTimeInterval(1), data: WidgetSharedData.instance.readData())]
         let timeline = Timeline(entries: entries, policy: .atEnd)
         completion(timeline)
@@ -38,9 +38,6 @@ struct widgetEntryView: View {
         entry.data?.networkHistory ?? []
     }
 
-    let uploadForeground = Color.yellow
-    let downloadForegroud = Color.green
-
     var body: some View {
         VStack(spacing: 16) {
             if entry.data == nil {
@@ -57,13 +54,13 @@ struct widgetEntryView: View {
                     HStack {
                         Spacer()
                         Group {
-                            Text(entry.data?.networkHistory.last?.upload.speedFormatted ?? "") + Text(" ↑").foregroundStyle(uploadForeground)
+                            Text(entry.data?.networkHistory.last?.upload.speedFormatted ?? "") + Text(" ↑").foregroundStyle(widgetBundle.firstColor)
                         }
                     }
                     HStack {
                         Spacer()
                         Group {
-                            Text(entry.data?.networkHistory.last?.download.speedFormatted ?? "") + Text(" ↓").foregroundStyle(downloadForegroud)
+                            Text(entry.data?.networkHistory.last?.download.speedFormatted ?? "") + Text(" ↓").foregroundStyle(widgetBundle.secondColor)
                         }
                     }
                 }
@@ -74,14 +71,14 @@ struct widgetEntryView: View {
                         y: .value("Value", data.adaptUploadValue(maxNetworkValue: entry.data?.maxNetworkValue ?? 0)),
                         series: .value("Upload", "Upload")
                     )
-                    .foregroundStyle(uploadForeground)
+                    .foregroundStyle(widgetBundle.firstColor)
 
                     LineMark(
                         x: .value("Time", data.timestamp),
                         y: .value("Value", data.adaptDownloadValue(maxNetworkValue: entry.data?.maxNetworkValue ?? 0)),
                         series: .value("Download", "Download")
                     )
-                    .foregroundStyle(downloadForegroud)
+                    .foregroundStyle(widgetBundle.secondColor)
                 }
                 .chartXAxis(.hidden)
                 .chartYAxisLabel(entry.data?.networkUnit ?? "B")
@@ -95,7 +92,7 @@ struct widgetEntryView: View {
     }
 }
 
-struct widget: Widget {
+struct NetworkWidget: Widget {
     let kind: String = "widget.network"
 
     var body: some WidgetConfiguration {

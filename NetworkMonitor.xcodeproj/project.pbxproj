@@ -24,6 +24,11 @@
 		7593FB6C2AFB8F06006514EF /* SysUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755E5DEC23546BE10055946F /* SysUtils.swift */; };
 		7593FB6D2AFB8F09006514EF /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753054F0238E5B0000072D6E /* StringUtils.swift */; };
 		7593FB6F2AFCCA4B006514EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7579DCE22372CFCB0083D47D /* Localizable.strings */; };
+		75BA1AFE2B05F73F006DAF68 /* SysInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BA1AFD2B05F73F006DAF68 /* SysInfo.swift */; };
+		75BA1AFF2B05FC04006DAF68 /* SysInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BA1AFD2B05F73F006DAF68 /* SysInfo.swift */; };
+		75BA1B012B05FD31006DAF68 /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BA1B002B05FD31006DAF68 /* Controller.swift */; };
+		75BA1B042B06029F006DAF68 /* MemoryWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BA1B022B0600E1006DAF68 /* MemoryWidget.swift */; };
+		75BA1B072B0605FC006DAF68 /* CpuWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BA1B052B0605F4006DAF68 /* CpuWidget.swift */; };
 		75C65D9E2351AA2500A12690 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C65D9D2351AA2500A12690 /* AppDelegate.swift */; };
 		75C65DA22351AA2600A12690 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75C65DA12351AA2600A12690 /* Assets.xcassets */; };
 		75C65DA52351AA2600A12690 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75C65DA32351AA2600A12690 /* Main.storyboard */; };
@@ -32,8 +37,8 @@
 		75E7980F2AFB3C9F0035B0E0 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E7980E2AFB3C9F0035B0E0 /* SharedData.swift */; };
 		75E798162AFB3CB70035B0E0 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75E798152AFB3CB70035B0E0 /* WidgetKit.framework */; };
 		75E798182AFB3CB70035B0E0 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75E798172AFB3CB70035B0E0 /* SwiftUI.framework */; };
-		75E7981B2AFB3CB70035B0E0 /* widgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E7981A2AFB3CB70035B0E0 /* widgetBundle.swift */; };
-		75E7981D2AFB3CB80035B0E0 /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E7981C2AFB3CB70035B0E0 /* widget.swift */; };
+		75E7981B2AFB3CB70035B0E0 /* WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E7981A2AFB3CB70035B0E0 /* WidgetBundle.swift */; };
+		75E7981D2AFB3CB80035B0E0 /* NetworkWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E7981C2AFB3CB70035B0E0 /* NetworkWidget.swift */; };
 		75E7981F2AFB3CBA0035B0E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75E7981E2AFB3CBA0035B0E0 /* Assets.xcassets */; };
 		75E798242AFB3CBA0035B0E0 /* widgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 75E798142AFB3CB70035B0E0 /* widgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -96,6 +101,10 @@
 		7579DCE12372CFCB0083D47D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7579DCE32372D12B0083D47D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		7579DCE42372D12B0083D47D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		75BA1AFD2B05F73F006DAF68 /* SysInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SysInfo.swift; sourceTree = "<group>"; };
+		75BA1B002B05FD31006DAF68 /* Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
+		75BA1B022B0600E1006DAF68 /* MemoryWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryWidget.swift; sourceTree = "<group>"; };
+		75BA1B052B0605F4006DAF68 /* CpuWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CpuWidget.swift; sourceTree = "<group>"; };
 		75C65D9A2351AA2500A12690 /* NetworkMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75C65D9D2351AA2500A12690 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		75C65DA12351AA2600A12690 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -109,8 +118,8 @@
 		75E798142AFB3CB70035B0E0 /* widgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = widgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		75E798152AFB3CB70035B0E0 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		75E798172AFB3CB70035B0E0 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		75E7981A2AFB3CB70035B0E0 /* widgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetBundle.swift; sourceTree = "<group>"; };
-		75E7981C2AFB3CB70035B0E0 /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
+		75E7981A2AFB3CB70035B0E0 /* WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBundle.swift; sourceTree = "<group>"; };
+		75E7981C2AFB3CB70035B0E0 /* NetworkWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWidget.swift; sourceTree = "<group>"; };
 		75E7981E2AFB3CBA0035B0E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		75E798202AFB3CBA0035B0E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75E798212AFB3CBA0035B0E0 /* widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = widget.entitlements; sourceTree = "<group>"; };
@@ -222,6 +231,7 @@
 		75C65DB32351AC2800A12690 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				75BA1AFD2B05F73F006DAF68 /* SysInfo.swift */,
 				753FD0282A66B158004B9FF3 /* UIntExtensions.swift */,
 				75C65DB42351AC3E00A12690 /* CmdUtils.swift */,
 				755E5DEC23546BE10055946F /* SysUtils.swift */,
@@ -244,6 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				75E7980E2AFB3C9F0035B0E0 /* SharedData.swift */,
+				75BA1B002B05FD31006DAF68 /* Controller.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -251,11 +262,13 @@
 		75E798192AFB3CB70035B0E0 /* widget */ = {
 			isa = PBXGroup;
 			children = (
-				75E7981A2AFB3CB70035B0E0 /* widgetBundle.swift */,
-				75E7981C2AFB3CB70035B0E0 /* widget.swift */,
+				75E7981A2AFB3CB70035B0E0 /* WidgetBundle.swift */,
+				75E7981C2AFB3CB70035B0E0 /* NetworkWidget.swift */,
+				75BA1B022B0600E1006DAF68 /* MemoryWidget.swift */,
 				75E7981E2AFB3CBA0035B0E0 /* Assets.xcassets */,
 				75E798202AFB3CBA0035B0E0 /* Info.plist */,
 				75E798212AFB3CBA0035B0E0 /* widget.entitlements */,
+				75BA1B052B0605F4006DAF68 /* CpuWidget.swift */,
 			);
 			path = widget;
 			sourceTree = "<group>";
@@ -407,6 +420,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75BA1AFE2B05F73F006DAF68 /* SysInfo.swift in Sources */,
 				75E7980F2AFB3C9F0035B0E0 /* SharedData.swift in Sources */,
 				753054F1238E5B0000072D6E /* StringUtils.swift in Sources */,
 				75139B9C25C2B7A300FBE6EF /* Nettop.swift in Sources */,
@@ -419,6 +433,7 @@
 				755E5DED23546BE10055946F /* SysUtils.swift in Sources */,
 				753FD0292A66B158004B9FF3 /* UIntExtensions.swift in Sources */,
 				757792592AF2462F00567B4A /* SettingView.swift in Sources */,
+				75BA1B012B05FD31006DAF68 /* Controller.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,10 +442,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				7593FB6D2AFB8F09006514EF /* StringUtils.swift in Sources */,
+				75BA1AFF2B05FC04006DAF68 /* SysInfo.swift in Sources */,
+				75BA1B042B06029F006DAF68 /* MemoryWidget.swift in Sources */,
 				7593FB6A2AFB8E25006514EF /* SharedData.swift in Sources */,
+				75BA1B072B0605FC006DAF68 /* CpuWidget.swift in Sources */,
 				7593FB6C2AFB8F06006514EF /* SysUtils.swift in Sources */,
-				75E7981B2AFB3CB70035B0E0 /* widgetBundle.swift in Sources */,
-				75E7981D2AFB3CB80035B0E0 /* widget.swift in Sources */,
+				75E7981B2AFB3CB70035B0E0 /* WidgetBundle.swift in Sources */,
+				75E7981D2AFB3CB80035B0E0 /* NetworkWidget.swift in Sources */,
 				7593FB6B2AFB8F02006514EF /* UIntExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

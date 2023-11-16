@@ -11,7 +11,13 @@ import SwiftUI
 
 @main
 struct widgetBundle: WidgetBundle {
+    @WidgetBundleBuilder
     var body: some Widget {
-        widget()
+        NetworkWidget()
+        MemoryWidget()
+        CpuWidget()
     }
+    
+    static let firstColor = Color.yellow
+    static let secondColor = Color.green
 }
