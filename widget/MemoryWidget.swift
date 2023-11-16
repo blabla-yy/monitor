@@ -10,15 +10,13 @@ import Charts
 import SwiftUI
 import WidgetKit
 
-
 struct MemoryWidgetEntryView: View {
     var entry: Provider.Entry
-
-    
 
     var history: [MemoryUsageInfo] {
         entry.data?.memory ?? []
     }
+
     var body: some View {
         VStack(spacing: 16) {
             if history.isEmpty {
@@ -35,7 +33,9 @@ struct MemoryWidgetEntryView: View {
                     HStack {
                         Spacer()
                         Group {
-                            Text("\(entry.data?.memory.last?.usageMB ?? 0)") + Text(" MB")
+                            Text(String(format: "%.2f",
+                                                  entry.data?.memory.last?.usageGB ?? 0)
+                            ) + Text(" GB")
 //                                .foregroundStyle(widgetBundle.firstColor)
                         }
                     }
@@ -57,8 +57,6 @@ struct MemoryWidgetEntryView: View {
                         series: .value("Usage", "Usage")
                     )
                     .foregroundStyle(widgetBundle.firstColor)
-
-                    
                 }
                 .chartXAxis(.hidden)
                 .chartYAxisLabel("MB")

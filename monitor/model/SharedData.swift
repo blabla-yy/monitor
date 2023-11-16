@@ -111,6 +111,10 @@ struct MemoryUsageInfo: Codable, Identifiable {
     
     var id: Date { timestamp }
     
+    var usageGB: Double {
+        Double(usageMB) / Double(1024)
+    }
+    
     var usagePercentage: Double {
         usageMB == 0 || totoalMB == 0 ? 0 : Double(usageMB / totoalMB)
     }
