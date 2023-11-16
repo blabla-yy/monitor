@@ -16,7 +16,7 @@ struct Provider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
-        let entry = SimpleEntry(date: Date(), data: nil)
+        let entry = SimpleEntry(date: Date(), data: .snapshot)
         completion(entry)
     }
 
@@ -108,7 +108,7 @@ struct NetworkWidget: Widget {
                     .widgetURL(URL(string: "main"))
             }
         }
-        .configurationDisplayName("Network Traffic Widget")
+        .configurationDisplayName("Network Widget".localized)
         .description("")
         .supportedFamilies([.systemSmall, .systemMedium])
     }

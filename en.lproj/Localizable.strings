@@ -22,3 +22,5 @@
 "Basic" = "Basic";
 "Status Bar" = "Status Bar";
 "Keep Decimals" = "Keep Decimals";
+
+"CFBundleDisplayName" = "StatusMonitor";

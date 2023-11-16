@@ -44,3 +44,11 @@
 "Memory" = "内存";
 "User" = "用户";
 "System" = "系统";
+
+"SystemStateWidget" = "系统状态小组件";
+"Network Widget" = "网络小组件";
+"Memory Widget" = "内存小组件";
+"CPU Widget" = "CPU小组件";
+
+
+

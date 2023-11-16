@@ -103,7 +103,7 @@ struct CpuWidget: Widget {
                     .widgetURL(URL(string: "main"))
             }
         }
-        .configurationDisplayName("Cpu Widget")
+        .configurationDisplayName("CPU Widget".localized)
         .description("")
         .supportedFamilies([.systemSmall, .systemMedium])
     }

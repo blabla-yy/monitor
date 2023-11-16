@@ -1,6 +1,5 @@
 //
 //  SharedData.swift
-//  NetworkMonitor
 //
 //  Created by wyy on 2023/11/7.
 //  Copyright © 2023 yahaha. All rights reserved.
@@ -80,6 +79,20 @@ struct SharedData: Codable {
     
     let memory: [MemoryUsageInfo]
     let cpu: [CpuUsageInfo]
+    
+    
+    static let snapshot: SharedData? = {
+        guard let snapshot = Bundle.main.url(forResource: "snapshot", withExtension: "json") else {
+            return nil
+        }
+        do {
+            let data = try Data(contentsOf: snapshot)
+            return try JSONDecoder().decode(SharedData.self, from: data)
+        } catch {
+            Log.shared.error("error to read file \(snapshot.path), error \(error.localizedDescription)")
+            return nil
+        }
+    }()
     
     var networkUnit: String {
         if maxNetworkValue > 1024 * 1024 {

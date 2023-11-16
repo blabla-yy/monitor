@@ -88,7 +88,7 @@ struct MemoryWidget: Widget {
                     .widgetURL(URL(string: "main"))
             }
         }
-        .configurationDisplayName("Memroy Widget")
+        .configurationDisplayName("Memory Widget".localized)
         .description("")
         .supportedFamilies([.systemSmall, .systemMedium])
     }

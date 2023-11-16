@@ -26,7 +26,6 @@
 		7593FB6F2AFCCA4B006514EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7579DCE22372CFCB0083D47D /* Localizable.strings */; };
 		75BA1AFE2B05F73F006DAF68 /* SysInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BA1AFD2B05F73F006DAF68 /* SysInfo.swift */; };
 		75BA1AFF2B05FC04006DAF68 /* SysInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BA1AFD2B05F73F006DAF68 /* SysInfo.swift */; };
-		75BA1B012B05FD31006DAF68 /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BA1B002B05FD31006DAF68 /* Controller.swift */; };
 		75BA1B042B06029F006DAF68 /* MemoryWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BA1B022B0600E1006DAF68 /* MemoryWidget.swift */; };
 		75BA1B072B0605FC006DAF68 /* CpuWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BA1B052B0605F4006DAF68 /* CpuWidget.swift */; };
 		75C65D9E2351AA2500A12690 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C65D9D2351AA2500A12690 /* AppDelegate.swift */; };
@@ -41,6 +40,8 @@
 		75E7981D2AFB3CB80035B0E0 /* NetworkWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E7981C2AFB3CB70035B0E0 /* NetworkWidget.swift */; };
 		75E7981F2AFB3CBA0035B0E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75E7981E2AFB3CBA0035B0E0 /* Assets.xcassets */; };
 		75E798242AFB3CBA0035B0E0 /* widgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 75E798142AFB3CB70035B0E0 /* widgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F0F25DDB2B065AA5003EB2FC /* snapshot.json in Resources */ = {isa = PBXBuildFile; fileRef = F0F25DD92B065970003EB2FC /* snapshot.json */; };
+		F0F25DDC2B065AA8003EB2FC /* snapshot.json in Resources */ = {isa = PBXBuildFile; fileRef = F0F25DD92B065970003EB2FC /* snapshot.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,7 +103,6 @@
 		7579DCE32372D12B0083D47D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		7579DCE42372D12B0083D47D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		75BA1AFD2B05F73F006DAF68 /* SysInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SysInfo.swift; sourceTree = "<group>"; };
-		75BA1B002B05FD31006DAF68 /* Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
 		75BA1B022B0600E1006DAF68 /* MemoryWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryWidget.swift; sourceTree = "<group>"; };
 		75BA1B052B0605F4006DAF68 /* CpuWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CpuWidget.swift; sourceTree = "<group>"; };
 		75C65D9A2351AA2500A12690 /* NetworkMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -123,6 +123,7 @@
 		75E7981E2AFB3CBA0035B0E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		75E798202AFB3CBA0035B0E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75E798212AFB3CBA0035B0E0 /* widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = widget.entitlements; sourceTree = "<group>"; };
+		F0F25DD92B065970003EB2FC /* snapshot.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = snapshot.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +173,7 @@
 		75C65D912351AA2500A12690 = {
 			isa = PBXGroup;
 			children = (
+				F0F25DD92B065970003EB2FC /* snapshot.json */,
 				75515E6D23A0E84500A84695 /* InfoPlist.strings */,
 				753054F5238E679500072D6E /* CHANGELOG.md */,
 				7579DCE22372CFCB0083D47D /* Localizable.strings */,
@@ -254,7 +256,6 @@
 			isa = PBXGroup;
 			children = (
 				75E7980E2AFB3C9F0035B0E0 /* SharedData.swift */,
-				75BA1B002B05FD31006DAF68 /* Controller.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -392,6 +393,7 @@
 				75515E6B23A0E84500A84695 /* InfoPlist.strings in Resources */,
 				7579DCE02372CFCB0083D47D /* Localizable.strings in Resources */,
 				75C65DA52351AA2600A12690 /* Main.storyboard in Resources */,
+				F0F25DDC2B065AA8003EB2FC /* snapshot.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +401,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0F25DDB2B065AA5003EB2FC /* snapshot.json in Resources */,
 				75E7981F2AFB3CBA0035B0E0 /* Assets.xcassets in Resources */,
 				7593FB6F2AFCCA4B006514EF /* Localizable.strings in Resources */,
 			);
@@ -433,7 +436,6 @@
 				755E5DED23546BE10055946F /* SysUtils.swift in Sources */,
 				753FD0292A66B158004B9FF3 /* UIntExtensions.swift in Sources */,
 				757792592AF2462F00567B4A /* SettingView.swift in Sources */,
-				75BA1B012B05FD31006DAF68 /* Controller.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -669,7 +671,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -684,7 +686,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.blabla.monitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -703,7 +705,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -718,7 +720,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.blabla.monitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -742,7 +744,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = widget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = widget;
+				INFOPLIST_KEY_CFBundleDisplayName = SystemStateWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 yahaha. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -778,7 +780,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = widget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = widget;
+				INFOPLIST_KEY_CFBundleDisplayName = SystemStateWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 yahaha. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
