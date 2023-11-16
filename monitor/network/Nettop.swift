@@ -119,7 +119,7 @@ class Nettop: ObservableObject {
     }
 
     @Published var networkHisotries: [NetworkData] = []
-    
+
     @Published var started = false
 
     // 是否已经弃掉第一部分数据
@@ -129,6 +129,8 @@ class Nettop: ObservableObject {
     // 进程相关
     var cmd: [String]
     var process: ProcessHelper?
+    var memoryHistories: [MemoryUsageInfo] = []
+    var cpuHistories: [CpuUsageInfo] = []
 
     // 缓冲
     var buffer: [String] = []
@@ -172,6 +174,7 @@ class Nettop: ObservableObject {
 
     func start() {
         stop()
+        started = true
         DispatchQueue.global(qos: .userInteractive).async {
             self.process = ProcessHelper.start(arguments: self.cmd, stdout: self.parseStdout)
         }
@@ -186,7 +189,7 @@ class Nettop: ObservableObject {
         appNetworkTrafficInfo.removeAll(keepingCapacity: true)
         WidgetSharedData.instance.reset()
         buffer.removeAll(keepingCapacity: true)
-        
+
         totalBytesIn = 0
         totalBytesOut = 0
         buffer.removeAll(keepingCapacity: true)
@@ -213,22 +216,47 @@ class Nettop: ObservableObject {
         }
     }
 
+    private func fillHistories() {
+        var histories: [NetworkData] = []
+        var memories: [MemoryUsageInfo] = []
+        var cpu: [CpuUsageInfo] = []
+        let now = Date.now
+        for i in 0 ..< 60 {
+            if let date = Calendar.current.date(byAdding: .second, value: -(60 - i), to: now) {
+                histories.append(.init(upload: 0, download: 0, timestamp: date))
+                memories.append(.init(usageMB: 0, totoalMB: 0, timestamp: date))
+                cpu.append(.init(userPercentage: 0, sysPercentage: 0, timestamp: date, totalUser: 0, totalSystem: 0, total: 0))
+            }
+        }
+        networkHisotries = histories
+        memoryHistories = memories
+        cpuHistories = cpu
+        networkHistoryMaxValue = 0
+    }
+
+    private func sendToWidget() {
+        WidgetSharedData.instance.writeData(date: Date.now,
+                                            networkHistories: networkHisotries,
+                                            maxValue: networkHistoryMaxValue,
+                                            memory: memoryHistories,
+                                            cpu: cpuHistories)
+    }
+
     private func refreshData(strings: [String]) {
-        self.started = true
         if droppedCount < 2 {
             droppedCount += 1
             buffer.removeAll(keepingCapacity: true)
-
-            var histories: [NetworkData] = []
-            let now = Date.now
-            for i in 0 ..< 60 {
-                if let date = Calendar.current.date(byAdding: .second, value: -i, to: now) {
-                    histories.append(.init(upload: 0, download: 0, timestamp: date))
-                }
+            fillHistories()
+            
+            
+            var cpu = SysInfo.getCpuUsageInfo(lastInfo: cpuHistories.last ?? .init(userPercentage: 0, sysPercentage: 0, timestamp: .now, totalUser: 0, totalSystem: 0, total: 0))
+            cpuHistories.append(CpuUsageInfo(userPercentage: 0, sysPercentage: 0, timestamp: .now, totalUser: cpu.totalUser, totalSystem: cpu.totalSystem, total: cpu.total))
+            while cpuHistories.count > 60 {
+                cpuHistories.removeFirst()
             }
-            networkHisotries = histories.reversed()
-
-            WidgetSharedData.instance.writeData(date: now, networkHistories: networkHisotries, maxValue: 0)
+            if droppedCount == 2 {
+                sendToWidget()
+            }
             return
         }
         var map: [Int32: AppNetworks] = [:]
@@ -257,18 +285,29 @@ class Nettop: ObservableObject {
         while networkHisotries.count > 60 {
             let removed = networkHisotries.removeFirst()
             if removed.upload == networkHistoryMaxValue || removed.download == networkHistoryMaxValue {
-                var maxValue:UInt = 0
+                var maxValue: UInt = 0
                 networkHisotries.forEach { item in
                     maxValue = max(item.upload, item.download, maxValue)
                 }
                 networkHistoryMaxValue = maxValue
             }
         }
+        if let memroy = SysInfo.getMemoryUsageInfo() {
+            memoryHistories.append(memroy)
+            while memoryHistories.count > 60 {
+                memoryHistories.removeFirst()
+            }
+        }
+        let cpu = SysInfo.getCpuUsageInfo(lastInfo: cpuHistories.last ?? .init(userPercentage: 0, sysPercentage: 0, timestamp: .now, totalUser: 0, totalSystem: 0, total: 0))
+        cpuHistories.append(cpu)
+        while cpuHistories.count > 60 {
+            cpuHistories.removeFirst()
+        }
 
         totalBytesIn = totalInput
         totalBytesOut = totalOutput
         appNetworkTrafficInfo = map.values.sorted(using: sortOrder)
-        WidgetSharedData.instance.writeData(date: now, networkHistories: networkHisotries, maxValue: self.networkHistoryMaxValue)
+        sendToWidget()
         NotificationCenter.default.post(name: .networkInfoChangeNotification, object: nil)
     }
 

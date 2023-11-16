@@ -1,6 +1,5 @@
 //
 //  SharedData.swift
-//  NetworkMonitor
 //
 //  Created by wyy on 2023/11/7.
 //  Copyright © 2023 yahaha. All rights reserved.
@@ -41,12 +40,16 @@ class WidgetSharedData {
         }
     }
 
-    func writeData(date: Date, networkHistories: [NetworkData], maxValue: UInt) {
+    func writeData(date: Date,
+                   networkHistories: [NetworkData],
+                   maxValue: UInt,
+                   memory: [MemoryUsageInfo],
+                   cpu: [CpuUsageInfo]) {
         do {
             if !FileManager.default.fileExists(atPath: dataFileURL.path) {
                 FileManager.default.createFile(atPath: dataFileURL.path, contents: nil)
             } else {
-                let data = try JSONEncoder().encode(SharedData(timestamp: date, maxNetworkValue: maxValue, networkHistory: networkHistories))
+                let data = try JSONEncoder().encode(SharedData(timestamp: date, maxNetworkValue: maxValue, networkHistory: networkHistories, memory: memory, cpu: cpu))
                 try data.write(to: dataFileURL)
             }
             WidgetCenter.shared.reloadAllTimelines()
@@ -74,6 +77,23 @@ struct SharedData: Codable {
     let maxNetworkValue: UInt
     let networkHistory: [NetworkData]
     
+    let memory: [MemoryUsageInfo]
+    let cpu: [CpuUsageInfo]
+    
+    
+    static let snapshot: SharedData? = {
+        guard let snapshot = Bundle.main.url(forResource: "snapshot", withExtension: "json") else {
+            return nil
+        }
+        do {
+            let data = try Data(contentsOf: snapshot)
+            return try JSONDecoder().decode(SharedData.self, from: data)
+        } catch {
+            Log.shared.error("error to read file \(snapshot.path), error \(error.localizedDescription)")
+            return nil
+        }
+    }()
+    
     var networkUnit: String {
         if maxNetworkValue > 1024 * 1024 {
             return "MB"
@@ -82,6 +102,35 @@ struct SharedData: Codable {
         }
         return "B"
     }
+}
+
+struct MemoryUsageInfo: Codable, Identifiable {
+    let usageMB: UInt64
+    let totoalMB: UInt64
+    let timestamp: Date
+    
+    var id: Date { timestamp }
+    
+    var usageGB: Double {
+        Double(usageMB) / Double(1024)
+    }
+    
+    var usagePercentage: Double {
+        usageMB == 0 || totoalMB == 0 ? 0 : Double(usageMB / totoalMB)
+    }
+}
+
+struct CpuUsageInfo: Codable, Identifiable {
+    let userPercentage: Double
+    let sysPercentage: Double
+    
+    let timestamp: Date
+    
+    let totalUser:Int64
+    let totalSystem: Int64
+    let total: Int64
+    
+    var id: Date { timestamp }
 }
 
 struct NetworkData: Codable, Identifiable {
