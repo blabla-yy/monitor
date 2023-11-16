@@ -80,10 +80,12 @@ struct MemoryWidget: Widget {
             if #available(macOS 14.0, *) {
                 MemoryWidgetEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
+                    .widgetURL(URL(string: "main"))
             } else {
                 MemoryWidgetEntryView(entry: entry)
                     .padding()
                     .background()
+                    .widgetURL(URL(string: "main"))
             }
         }
         .configurationDisplayName("Memroy Widget")

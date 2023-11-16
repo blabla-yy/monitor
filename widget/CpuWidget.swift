@@ -95,10 +95,12 @@ struct CpuWidget: Widget {
             if #available(macOS 14.0, *) {
                 CpuWidgetEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
+                    .widgetURL(URL(string: "main"))
             } else {
                 CpuWidgetEntryView(entry: entry)
                     .padding()
                     .background()
+                    .widgetURL(URL(string: "main"))
             }
         }
         .configurationDisplayName("Cpu Widget")

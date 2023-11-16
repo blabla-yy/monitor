@@ -100,10 +100,12 @@ struct NetworkWidget: Widget {
             if #available(macOS 14.0, *) {
                 widgetEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
+                    .widgetURL(URL(string: "main"))
             } else {
                 widgetEntryView(entry: entry)
                     .padding()
                     .background()
+                    .widgetURL(URL(string: "main"))
             }
         }
         .configurationDisplayName("Network Traffic Widget")

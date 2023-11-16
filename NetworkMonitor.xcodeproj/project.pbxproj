@@ -265,10 +265,10 @@
 				75E7981A2AFB3CB70035B0E0 /* WidgetBundle.swift */,
 				75E7981C2AFB3CB70035B0E0 /* NetworkWidget.swift */,
 				75BA1B022B0600E1006DAF68 /* MemoryWidget.swift */,
+				75BA1B052B0605F4006DAF68 /* CpuWidget.swift */,
 				75E7981E2AFB3CBA0035B0E0 /* Assets.xcassets */,
 				75E798202AFB3CBA0035B0E0 /* Info.plist */,
 				75E798212AFB3CBA0035B0E0 /* widget.entitlements */,
-				75BA1B052B0605F4006DAF68 /* CpuWidget.swift */,
 			);
 			path = widget;
 			sourceTree = "<group>";
